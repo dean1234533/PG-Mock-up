@@ -101,6 +101,12 @@
     .mem-viewport { overflow: hidden; width: 100%; }
     .mem-cards-track { display: flex; gap: 0; align-items: stretch; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); will-change: transform; }
     .mem-cards-track .membership-card { flex: 0 0 100%; width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; }
+    @media (min-width: 820px) {
+      .mem-slider-controls { display: none; }
+      .mem-viewport { overflow: visible; }
+      .mem-cards-track { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; transform: none !important; transition: none; }
+      .mem-cards-track .membership-card { flex: unset; width: auto; max-width: none; min-width: 0; }
+    }
 
     @media (max-width: 768px) {
       .trust-bar { gap: 24px; flex-wrap: wrap; padding: 28px 20px; }
@@ -149,12 +155,12 @@
   </div>
 
   <!-- PAGE HEADER -->
-  <div style="background:var(--surface);border-bottom:1px solid var(--border);padding:80px 24px 60px;text-align:center;position:relative;overflow:hidden;">
-    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(0,212,170,0.06) 0%,transparent 70%);"></div>
+  <div style="background-image:url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=60');background-size:cover;background-position:center;padding:100px 24px 70px;text-align:center;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.68) 0%,rgba(0,0,0,0.55) 100%);"></div>
     <div style="position:relative;">
       <span class="section-eyebrow">Memberships</span>
-      <h1 style="margin-bottom:16px;">Simple, flexible <span style="color:var(--primary);">plans</span></h1>
-      <p style="max-width:520px;margin:0 auto;font-size:1.05rem;">No contract, no hidden fees. Choose the plan that works for you and cancel anytime.</p>
+      <h1 style="margin-bottom:16px;color:#ffffff;">Simple, flexible <span style="color:var(--primary);">plans</span></h1>
+      <p style="max-width:520px;margin:0 auto;font-size:1.05rem;color:#cccccc;">No contract, no hidden fees. Choose the plan that works for you and cancel anytime.</p>
     </div>
   </div>
 
