@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Da Gym — Classes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <style>
+    .timetable-grid {
+      display: grid;
+      grid-template-columns: 120px repeat(7, 1fr);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      font-size: 0.75rem;
+    }
+    .timetable-header {
+      background: var(--surface);
+      padding: 12px 10px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+    }
+    .timetable-time {
+      padding: 12px 10px;
+      text-align: center;
+      font-weight: 600;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .timetable-slot {
+      padding: 6px;
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      min-height: 56px;
+    }
+    .class-pill {
+      background: var(--primary-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 6px;
+      padding: 5px 8px;
+      color: var(--primary);
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      line-height: 1.3;
+    }
+    .class-pill:hover { background: var(--primary); color: #000; }
+    .class-pill.red { background: rgba(255,71,87,0.12); border-color: rgba(255,71,87,0.3); color: #ff6b6b; }
+    .class-pill.red:hover { background: #ff4757; color: #fff; }
+    .class-pill.blue { background: rgba(0,180,220,0.12); border-color: rgba(0,180,220,0.3); color: #4ecdc4; }
+    .class-pill.blue:hover { background: #0abde3; color: #000; }
+    .class-pill.gold { background: rgba(255,193,7,0.12); border-color: rgba(255,193,7,0.3); color: #ffc107; }
+    .class-pill.gold:hover { background: #ffc107; color: #000; }
+    .timetable-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: var(--radius-lg); }
+    .timetable-scroll .timetable-grid { min-width: 620px; border-radius: 0; }
+    @media (max-width: 900px) {
+      .timetable-grid { grid-template-columns: 80px repeat(7, 1fr); font-size: 0.65rem; }
+    }
+    @media (max-width: 600px) {
+      .timetable-grid { font-size: 0.6rem; }
+      .timetable-header, .timetable-time { padding: 8px 4px; }
+      .timetable-slot { min-height: 44px; padding: 4px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Da <span>Gym</span></a>
+      <div class="nav-links">
+        <a href="find-a-gym.html" class="nav-link">Find a Gym</a>
+        <a href="memberships.html" class="nav-link">Memberships</a>
+        <a href="classes.html" class="nav-link active">Classes</a>
+        <a href="personal-trainers.html" class="nav-link">Personal Trainers</a>
+        <a href="about.html" class="nav-link">About</a>
+      </div>
+      <div class="nav-actions">
+        <a href="memberships.html" class="btn btn-primary">Join Now</a>
+        <button class="mobile-menu-btn btn-ghost" id="mobileMenuBtn">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MOBILE NAV -->
+  <div class="mobile-nav" id="mobileNav">
+    <button id="mobileNavClose" style="position:absolute;top:20px;right:20px;color:var(--text);background:none;border:none;font-size:1.5rem;cursor:pointer;">✕</button>
+    <a href="find-a-gym.html" class="nav-link">Find a Gym</a>
+    <a href="memberships.html" class="nav-link">Memberships</a>
+    <a href="classes.html" class="nav-link">Classes</a>
+    <a href="personal-trainers.html" class="nav-link">Personal Trainers</a>
+    <a href="about.html" class="nav-link">About</a>
+    <div style="margin-top:24px;"><a href="memberships.html" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Join Now</a></div>
+  </div>
+
+  <!-- HERO -->
+  <div style="background:var(--surface);border-bottom:1px solid var(--border);padding:80px 24px 60px;text-align:center;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(0,212,170,0.05) 0%,transparent 70%);"></div>
+    <div style="position:relative;">
+      <span class="section-eyebrow">Classes</span>
+      <h1 style="margin-bottom:16px;">Unlimited classes. <span style="color:var(--primary);">Unlimited you.</span></h1>
+      <p style="max-width:540px;margin:0 auto;font-size:1.05rem;">500+ classes per week across all our gyms. From HIIT to Yoga, Spin to Pilates — included free with every membership.</p>
+    </div>
+  </div>
+
+  <!-- CLASSES CATALOGUE -->
+  <div class="section">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:32px;">
+      <div>
+        <span class="section-eyebrow">Browse Classes</span>
+        <h2 style="margin-top:4px;">Find your class</h2>
+      </div>
+      <div class="classes-filter">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="hiit">HIIT</button>
+        <button class="filter-btn" data-filter="yoga">Yoga &amp; Pilates</button>
+        <button class="filter-btn" data-filter="cardio">Cardio</button>
+        <button class="filter-btn" data-filter="strength">Strength</button>
+        <button class="filter-btn" data-filter="dance">Dance</button>
+      </div>
+    </div>
+
+    <div class="classes-grid">
+      <!-- HIIT -->
+      <div class="class-card" data-animate data-category="hiit">
+        <div class="class-card-img" style="background:linear-gradient(135deg,#1a0a0a,#3d0f0f);"><img src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?auto=format&fit=crop&w=600&h=200&q=80" alt="Fitness class" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+          <div class="class-card-category">HIIT</div>
+        </div>
+        <div class="class-card-body">
+          <div class="class-card-name">HIIT Blast</div>
+          <p class="class-card-desc">High-intensity intervals designed to burn maximum calories in minimum time. Suitable for all fitness levels with modifications.</p>
+          <div class="class-card-meta">
+            <div class="class-meta-item"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> 45 mins</div>
+            <div class="class-meta-item"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> All levels</div>
+            <div class="class-meta-item" style="color:var(--primary);">● Available now</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="class-card" data-animate data-delay="1" data-category="hiit">
+        <div class="class-card-img" style="background:linear-gradient(135deg,#0a1a1a,#0f3d3d);"><img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=600&h=200&q=80" alt="Fitness class" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+          <div class="class-card-category">HIIT</div>
+        </div>
+        <div class="class-card-body">
+          <div class="class-card-name">Tabata Torch</div>
+          <p class="class-card-desc">20 seconds on, 10 seconds off. Eight rounds of pure fire. This class will push your limits and elevate your metabolism for hours.</p>
+          <div class="class-card-meta">
+            <div class="class-meta-item"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> 30 mins</div>
+            <div class="class-meta-item"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Intermediate</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- YOGA / PILATES -->
+      <div class="class-card" data-animate data-delay="2" data-category="yoga">
+        <div class="class-card-img" style="background:linear-gradient(135deg,#0a1a0a,#1a3d1a);"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&h=200&q=80" alt="Flow Yoga class" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+          <div class="class-card-category">Yoga</div>
+        </div>
+        <div class="class-card-body">
+          <div class="class-card-name">Flow Yoga</div>
+          <p class="class-card-desc">A dynamic, moving meditation linking breath and movement. Improves flexibility, strength, and mindfulness. Open to all levels.</p>
+          <div class="class-card-meta">
+            <div class="class-meta-item"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> 60 mins</div>
+            <div class="class-meta-item"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> All levels</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="class-card" data-animate data-delay="1" data-category="yoga">
+        <div class="class-card-img" style="background:linear-gradient(135deg,#1a0a1a,#3d0f3d);"><img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&h=200&q=80" alt="Core Pilates class" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+          <div class="class-card-category">Pilates</div>
+        </div>
+        <div class="class-card-body">
+          <div class="class-card-name">Core Pilates</div>
+          <p class="class-card-desc">Focused on strengthening your deep core muscles, improving posture, and building body awareness. Great for injury recovery.</p>
+          <div class="class-card-meta">
+            <div class="class-meta-item"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> 45 mins</div>
+            <div class="class-meta-item"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Beginner friendly</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARDIO -->
+      <div class="class-card" data-animate data-delay="2" data-category="cardio">
+        <div class="class-card-img" style="background:linear-gradient(135deg,#0a0f1a,#0f1d3d);"><img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&w=600&h=200&q=80" alt="Fitness class" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+          <div class="class-card-category">Cardio</div>
+        </div>
+        <div class="class-card-body">
+          <div class="class-card-name">Spin Cycle</div>
+          <p class="class-card-desc">Indoor cycling to the beat — sprints, climbs, and intervals that torch calories and build serious cardiovascular fitness.</p>
+          <div class="class-card-meta">
+            <div class="class-meta-item"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> 45 mins</div>
+            <div class="class-meta-item"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> All levels</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STRENGTH -->
+      <div class="class-card" data-animate data-delay="1" data-category="strength">
+        <div class="class-card-img" style="background:linear-gradient(135deg,#1a1000,#3d2800);"><img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&h=200&q=80" alt="Fitness class" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+          <div class="class-card-category">Strength</div>
+        </div>
+        <div class="class-card-body">
+          <div class="class-card-name">BodyPump</div>
+          <p class="class-card-desc">Barbell-based class targeting all major muscle groups. Light to moderate weight, high repetitions — sculpt and tone your entire body.</p>
+          <div class="class-card-meta">
+            <div class="class-meta-item"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> 55 mins</div>
+            <div class="class-meta-item"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> All levels</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DANCE -->
+      <div class="class-card" data-animate data-delay="2" data-category="dance">
+        <div class="class-card-img" style="background:linear-gradient(135deg,#1a001a,#3d003d);"><img src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?auto=format&fit=crop&w=600&h=200&q=80" alt="Zumba dance class" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+          <div class="class-card-category">Dance</div>
+        </div>
+        <div class="class-card-body">
+          <div class="class-card-name">Zumba</div>
+          <p class="class-card-desc">Dance-fitness party combining Latin rhythms with easy-to-follow moves. Fun, energetic, and an amazing cardio workout disguised as a party.</p>
+          <div class="class-card-meta">
+            <div class="class-meta-item"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> 60 mins</div>
+            <div class="class-meta-item"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> All levels</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="class-card" data-animate data-delay="1" data-category="strength">
+        <div class="class-card-img" style="background:linear-gradient(135deg,#001a10,#003d20);"><img src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?auto=format&fit=crop&w=600&h=200&q=80" alt="Kettlebell workout" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+          <div class="class-card-category">Strength</div>
+        </div>
+        <div class="class-card-body">
+          <div class="class-card-name">Kettlebell Power</div>
+          <p class="class-card-desc">Explosive kettlebell movements for total-body strength and conditioning. Develops power, stability, and functional fitness.</p>
+          <div class="class-card-meta">
+            <div class="class-meta-item"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> 45 mins</div>
+            <div class="class-meta-item"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Intermediate</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="class-card" data-animate data-delay="2" data-category="cardio">
+        <div class="class-card-img" style="background:linear-gradient(135deg,#00101a,#00253d);"><img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=600&h=200&q=80" alt="Boxercise class" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+          <div class="class-card-category">Cardio</div>
+        </div>
+        <div class="class-card-body">
+          <div class="class-card-name">Boxercise</div>
+          <p class="class-card-desc">Boxing-inspired cardio workout. Pad work, shadowboxing, and combinations for a full-body sweat session with killer cardio benefits.</p>
+          <div class="class-card-meta">
+            <div class="class-meta-item"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> 45 mins</div>
+            <div class="class-meta-item"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> All levels</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMETABLE -->
+  <div style="background:var(--surface);border-top:1px solid var(--border);">
+    <div class="section">
+      <div class="section-header" data-animate>
+        <span class="section-eyebrow">Weekly Timetable</span>
+        <h2>This week at Stratford</h2>
+        <p>Book up to 6 days in advance via the Da Gym app or your online account.</p>
+      </div>
+
+      <div class="timetable-scroll" data-animate>
+        <div class="timetable-grid">
+          <div class="timetable-header">Time</div>
+          <div class="timetable-header">Mon</div>
+          <div class="timetable-header">Tue</div>
+          <div class="timetable-header">Wed</div>
+          <div class="timetable-header">Thu</div>
+          <div class="timetable-header">Fri</div>
+          <div class="timetable-header">Sat</div>
+          <div class="timetable-header">Sun</div>
+
+          <div class="timetable-time">06:00</div>
+          <div class="timetable-slot"><div class="class-pill">HIIT Blast</div></div>
+          <div class="timetable-slot"></div>
+          <div class="timetable-slot"><div class="class-pill">HIIT Blast</div></div>
+          <div class="timetable-slot"></div>
+          <div class="timetable-slot"><div class="class-pill">HIIT Blast</div></div>
+          <div class="timetable-slot"><div class="class-pill blue">Spin Cycle</div></div>
+          <div class="timetable-slot"></div>
+
+          <div class="timetable-time">07:00</div>
+          <div class="timetable-slot"><div class="class-pill blue">Spin Cycle</div></div>
+          <div class="timetable-slot"><div class="class-pill">Flow Yoga</div></div>
+          <div class="timetable-slot"></div>
+          <div class="timetable-slot"><div class="class-pill blue">Spin Cycle</div></div>
+          <div class="timetable-slot"></div>
+          <div class="timetable-slot"></div>
+          <div class="timetable-slot"><div class="class-pill">Flow Yoga</div></div>
+
+          <div class="timetable-time">09:00</div>
+          <div class="timetable-slot"></div>
+          <div class="timetable-slot"><div class="class-pill red">BodyPump</div></div>
+          <div class="timetable-slot"><div class="class-pill">Core Pilates</div></div>
+          <div class="timetable-slot"></div>
+          <div class="timetable-slot"><div class="class-pill red">BodyPump</div></div>
+          <div class="timetable-slot"><div class="class-pill">HIIT Blast</div></div>
+          <div class="timetable-slot"><div class="class-pill gold">Zumba</div></div>
+
+          <div class="timetable-time">12:00</div>
+          <div class="timetable-slot"><div class="class-pill">Core Pilates</div></div>
+          <div class="timetable-slot"><div class="class-pill blue">Boxercise</div></div>
+          <div class="timetable-slot"><div class="class-pill">HIIT Blast</div></div>
+          <div class="timetable-slot"><div class="class-pill">Core Pilates</div></div>
+          <div class="timetable-slot"><div class="class-pill blue">Boxercise</div></div>
+          <div class="timetable-slot"></div>
+          <div class="timetable-slot"></div>
+
+          <div class="timetable-time">17:30</div>
+          <div class="timetable-slot"><div class="class-pill red">BodyPump</div></div>
+          <div class="timetable-slot"><div class="class-pill">Tabata</div></div>
+          <div class="timetable-slot"><div class="class-pill gold">Zumba</div></div>
+          <div class="timetable-slot"><div class="class-pill red">BodyPump</div></div>
+          <div class="timetable-slot"><div class="class-pill">Kettlebell</div></div>
+          <div class="timetable-slot"></div>
+          <div class="timetable-slot"></div>
+
+          <div class="timetable-time">19:00</div>
+          <div class="timetable-slot"><div class="class-pill">Flow Yoga</div></div>
+          <div class="timetable-slot"><div class="class-pill blue">Spin Cycle</div></div>
+          <div class="timetable-slot"><div class="class-pill red">BodyPump</div></div>
+          <div class="timetable-slot"><div class="class-pill">Flow Yoga</div></div>
+          <div class="timetable-slot"><div class="class-pill blue">Spin Cycle</div></div>
+          <div class="timetable-slot"></div>
+          <div class="timetable-slot"></div>
+        </div>
+      </div>
+
+      <div style="margin-top:24px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
+        <span style="font-size:0.78rem;color:var(--text-dim);">Legend:</span>
+        <div style="display:flex;align-items:center;gap:6px;font-size:0.75rem;"><div class="class-pill" style="display:inline-block;">HIIT &amp; Strength</div></div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:0.75rem;"><div class="class-pill blue" style="display:inline-block;">Cardio</div></div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:0.75rem;"><div class="class-pill red" style="display:inline-block;">Weights</div></div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:0.75rem;"><div class="class-pill gold" style="display:inline-block;">Dance</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA STRIP -->
+  <div style="background:linear-gradient(90deg,#00b894,#00d4aa);padding:48px 24px;text-align:center;">
+    <h2 style="color:#000;margin-bottom:12px;">Classes included with every membership</h2>
+    <p style="color:rgba(0,0,0,0.7);margin-bottom:28px;font-size:1rem;">Join Da Gym today and get unlimited access to every class — no extra cost.</p>
+    <a href="memberships.html" class="btn" style="background:#000;color:#fff;padding:14px 36px;font-size:1rem;border-radius:var(--radius);font-weight:700;">Join from £23.99/month</a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="nav-logo" style="margin-bottom:14px;">Da <span>Gym</span></div>
+          <p>The UK's largest gym network. No contract, just results.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Get to Know Us</h5>
+          <div class="footer-links">
+            <a href="about.html" class="footer-link">About Da Gym</a>
+            <a href="#" class="footer-link">Careers</a>
+            <a href="#" class="footer-link">Press</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Help &amp; Support</h5>
+          <div class="footer-links">
+            <a href="#" class="footer-link">FAQs</a>
+            <a href="#" class="footer-link">Contact Us</a>
+            <a href="#" class="footer-link">Member Login</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Company</h5>
+          <div class="footer-links">
+            <a href="#" class="footer-link">Investors</a>
+            <a href="#" class="footer-link">Partners</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Serious Stuff</h5>
+          <div class="footer-links">
+            <a href="privacy.html" class="footer-link">Privacy Policy</a>
+            <a href="terms.html" class="footer-link">Terms &amp; Conditions</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Da Gym. All rights reserved.</span>
+        <div class="footer-socials">
+          <a href="https://www.instagram.com/dagym/" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://www.facebook.com/Da Gym/" target="_blank" rel="noopener" class="social-icon" aria-label="Facebook"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.88v2.27h3.32l-.53 3.49h-2.79V24C19.61 23.1 24 18.1 24 12.07z"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

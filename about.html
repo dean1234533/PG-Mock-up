@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Da Gym — About Us</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <style>
+    .mission-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      margin: 80px 0;
+    }
+    .mission-text h2 { color: var(--text); margin-bottom: 20px; }
+    .mission-text p { margin-bottom: 16px; line-height: 1.8; font-size: 0.95rem; }
+    .mission-visual {
+      aspect-ratio: 4/3;
+      background: linear-gradient(135deg, #0d1117, #1a2332);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dim);
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 32px;
+      margin-top: 48px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 4px;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--primary), transparent);
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 36px;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -28px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 12px rgba(0,212,170,0.5);
+    }
+    .timeline-year {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--primary);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .timeline-title { color: var(--text); font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+    .timeline-desc { font-size: 0.82rem; color: var(--text-muted); }
+
+    .press-logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+      flex-wrap: wrap;
+      padding: 48px 24px;
+    }
+    .press-logo {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--text-dim);
+      letter-spacing: -0.02em;
+      transition: color var(--transition);
+    }
+    .press-logo:hover { color: var(--text-muted); }
+
+    @media (max-width: 900px) {
+      .mission-grid { grid-template-columns: 1fr; gap: 40px; }
+      .mission-visual { display: none; }
+      .mission-grid { margin: 48px 0; }
+    }
+    @media (max-width: 768px) {
+      .press-logos { gap: 24px; padding: 32px 20px; }
+      .press-logo { font-size: 1rem; }
+      .timeline { padding-left: 24px; }
+      .mission-grid { margin: 32px 0; }
+    }
+    @media (max-width: 480px) {
+      .press-logos { gap: 16px; padding: 24px 16px; }
+      .timeline { padding-left: 20px; }
+      .timeline-item::before { left: -22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Da <span>Gym</span></a>
+      <div class="nav-links">
+        <a href="find-a-gym.html" class="nav-link">Find a Gym</a>
+        <a href="memberships.html" class="nav-link">Memberships</a>
+        <a href="classes.html" class="nav-link">Classes</a>
+        <a href="personal-trainers.html" class="nav-link">Personal Trainers</a>
+        <a href="about.html" class="nav-link active">About</a>
+      </div>
+      <div class="nav-actions">
+        <a href="memberships.html" class="btn btn-primary">Join Now</a>
+        <button class="mobile-menu-btn btn-ghost" id="mobileMenuBtn">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MOBILE NAV -->
+  <div class="mobile-nav" id="mobileNav">
+    <button id="mobileNavClose" style="position:absolute;top:20px;right:20px;color:var(--text);background:none;border:none;font-size:1.5rem;cursor:pointer;">✕</button>
+    <a href="find-a-gym.html" class="nav-link">Find a Gym</a>
+    <a href="memberships.html" class="nav-link">Memberships</a>
+    <a href="classes.html" class="nav-link">Classes</a>
+    <a href="personal-trainers.html" class="nav-link">Personal Trainers</a>
+    <a href="about.html" class="nav-link">About</a>
+    <div style="margin-top:24px;"><a href="memberships.html" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Join Now</a></div>
+  </div>
+
+  <!-- ABOUT HERO -->
+  <div class="about-hero" style="background-image:url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=60');background-size:cover;background-position:center;">
+    <div style="position:relative;">
+      <span class="section-eyebrow">About Da Gym</span>
+      <h1 style="margin:12px 0 20px;">Making fitness <span style="color:var(--primary);">accessible</span><br>for everyone</h1>
+      <p style="max-width:560px;margin:0 auto;font-size:1.05rem;color:#cccccc;">Da Gym was founded on a simple belief: high-quality gyms shouldn't cost a fortune, and they shouldn't come with complicated contracts. That belief drives everything we do.</p>
+    </div>
+  </div>
+
+  <!-- KEY STATS -->
+  <div style="background:var(--surface);border-bottom:1px solid var(--border);">
+    <div class="about-stats-grid">
+      <div class="about-stat-cell">
+        <div style="font-size:2.8rem;font-weight:900;color:var(--text);line-height:1;letter-spacing:-0.02em;"><span data-target="300" data-suffix="+">0</span></div>
+        <div style="font-size:0.82rem;color:var(--text-muted);margin-top:6px;">Gyms across the UK</div>
+      </div>
+      <div class="about-stat-cell">
+        <div style="font-size:2.8rem;font-weight:900;color:var(--text);line-height:1;letter-spacing:-0.02em;"><span data-target="1" data-suffix="M+">0</span></div>
+        <div style="font-size:0.82rem;color:var(--text-muted);margin-top:6px;">Active members</div>
+      </div>
+      <div class="about-stat-cell">
+        <div style="font-size:2.8rem;font-weight:900;color:var(--text);line-height:1;letter-spacing:-0.02em;"><span data-target="2009" data-suffix="">2009</span></div>
+        <div style="font-size:0.82rem;color:var(--text-muted);margin-top:6px;">Year founded</div>
+      </div>
+      <div class="about-stat-cell">
+        <div style="font-size:2.8rem;font-weight:900;color:var(--text);line-height:1;letter-spacing:-0.02em;"><span data-target="500" data-suffix="+">0</span></div>
+        <div style="font-size:0.82rem;color:var(--text-muted);margin-top:6px;">Classes per week</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+
+    <!-- MISSION -->
+    <div class="mission-grid">
+      <div class="mission-text" data-animate>
+        <span class="section-eyebrow">Our Mission</span>
+        <h2>Fitness shouldn't be a privilege</h2>
+        <p>Da Gym was born from a frustration with expensive gym memberships, long contracts, and overcrowded facilities that most people couldn't access or afford.</p>
+        <p>We set out to build something different — world-class facilities at honest prices, no contracts, open around the clock. We believe that everyone deserves access to a great gym, regardless of their budget or schedule.</p>
+        <p>Today we're the UK's largest gym operator, but our mission hasn't changed: to make fitness accessible, inclusive, and empowering for every single person who walks through our doors.</p>
+        <a href="memberships.html" class="btn btn-primary btn-lg" style="margin-top:8px;">Join Da Gym</a>
+      </div>
+      <div class="mission-visual" data-animate>
+        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=800&q=80" alt="Da Gym Stratford interior" style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius-lg);">
+      </div>
+    </div>
+
+    <!-- VALUES -->
+    <div class="section-header" data-animate>
+      <span class="section-eyebrow">Our Values</span>
+      <h2>What drives us</h2>
+    </div>
+
+    <div class="values-grid">
+      <div class="value-card" data-animate>
+        <div class="value-num">01</div>
+        <h3>Inclusivity</h3>
+        <p>Fitness is for everyone. We design our gyms, our pricing, and our culture to welcome people of all ages, abilities, and backgrounds.</p>
+      </div>
+      <div class="value-card" data-animate data-delay="1">
+        <div class="value-num">02</div>
+        <h3>Transparency</h3>
+        <p>No hidden fees. No sneaky clauses. We say what we mean and do what we say — simple as that.</p>
+      </div>
+      <div class="value-card" data-animate data-delay="2">
+        <div class="value-num">03</div>
+        <h3>Innovation</h3>
+        <p>From smart app booking to our Women's Workout Space, we're constantly looking for better ways to serve our members.</p>
+      </div>
+    </div>
+
+    <!-- HISTORY -->
+    <div style="max-width:600px;margin:80px auto 0;" data-animate>
+      <div class="section-header" style="text-align:left;margin-bottom:0;">
+        <span class="section-eyebrow">Our Story</span>
+        <h2>From one gym to the UK's largest</h2>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-year">2009</div>
+          <div class="timeline-title">Founded in Sheffield</div>
+          <div class="timeline-desc">Da Gym opens its first location with a bold vision: premium equipment, no contracts, affordable memberships.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2012</div>
+          <div class="timeline-title">Rapid expansion</div>
+          <div class="timeline-desc">We reach 25 gyms and 150,000 members, proving the model works. Investment secured to accelerate growth.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2015</div>
+          <div class="timeline-title">UK's largest gym group</div>
+          <div class="timeline-desc">Da Gym becomes the biggest gym operator in the UK by number of sites — a milestone that validates everything we stood for.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2019</div>
+          <div class="timeline-title">1 million members</div>
+          <div class="timeline-desc">We cross the one million member milestone, making us one of the largest fitness communities in Europe.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2024</div>
+          <div class="timeline-title">Women's Workout Space</div>
+          <div class="timeline-desc">Launching dedicated female-only training zones across our estate, responding to what our members have asked for.</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-year">2026</div>
+          <div class="timeline-title">300+ gyms nationwide</div>
+          <div class="timeline-desc">Today we have over 300 locations and more than 1 million active members — and we're just getting started.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PRESS MENTION STRIP -->
+  <div style="background:var(--surface);border-top:1px solid var(--border);">
+    <div style="text-align:center;padding:28px 24px 16px;">
+      <span style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-dim);font-weight:700;">As featured in</span>
+    </div>
+    <div class="press-logos">
+      <div class="press-logo">The Guardian</div>
+      <div class="press-logo">The Times</div>
+      <div class="press-logo">BBC Sport</div>
+      <div class="press-logo">Forbes</div>
+      <div class="press-logo">Evening Standard</div>
+    </div>
+  </div>
+
+  <!-- JOIN CTA -->
+  <div style="background:linear-gradient(135deg,#00b894,#00d4aa);padding:80px 24px;text-align:center;">
+    <h2 style="color:#000;font-size:2.4rem;margin-bottom:16px;">Ready to start your journey?</h2>
+    <p style="color:rgba(0,0,0,0.7);font-size:1.1rem;margin-bottom:36px;max-width:480px;margin-left:auto;margin-right:auto;">Join over 1 million members who've chosen Da Gym. No contract, no excuses.</p>
+    <a href="memberships.html" class="btn" style="background:#000;color:#fff;padding:16px 40px;font-size:1.05rem;border-radius:var(--radius);font-weight:700;">Join from £23.99/month</a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="nav-logo" style="margin-bottom:14px;">Da <span>Gym</span></div>
+          <p>The UK's largest gym network. No contract, just results.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Get to Know Us</h5>
+          <div class="footer-links">
+            <a href="about.html" class="footer-link">About Da Gym</a>
+            <a href="#" class="footer-link">Careers</a>
+            <a href="#" class="footer-link">Press</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Help &amp; Support</h5>
+          <div class="footer-links">
+            <a href="#" class="footer-link">FAQs</a>
+            <a href="#" class="footer-link">Contact Us</a>
+            <a href="#" class="footer-link">Member Login</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Company</h5>
+          <div class="footer-links">
+            <a href="#" class="footer-link">Investors</a>
+            <a href="#" class="footer-link">Partners</a>
+            <a href="#" class="footer-link">Corporate</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Serious Stuff</h5>
+          <div class="footer-links">
+            <a href="privacy.html" class="footer-link">Privacy Policy</a>
+            <a href="terms.html" class="footer-link">Terms &amp; Conditions</a>
+            <a href="privacy.html#cookies" class="footer-link">Cookie Policy</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Da Gym. All rights reserved.</span>
+        <div class="footer-socials">
+          <a href="https://www.instagram.com/dagym/" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://www.facebook.com/Da Gym/" target="_blank" rel="noopener" class="social-icon" aria-label="Facebook"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.88v2.27h3.32l-.53 3.49h-2.79V24C19.61 23.1 24 18.1 24 12.07z"/></svg></a>
+          <a href="https://www.tiktok.com/@dagym" target="_blank" rel="noopener" class="social-icon" aria-label="TikTok"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg></a>
+          <a href="https://www.facebook.com/Da Gym/" target="_blank" rel="noopener" class="social-icon" aria-label="Facebook"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.88v2.27h3.32l-.53 3.49h-2.79V24C19.61 23.1 24 18.1 24 12.07z"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Da Gym — Personal Trainers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <style>
+    .pt-benefits {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+      margin: 48px 0;
+    }
+    .pt-benefit {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      transition: all var(--transition);
+    }
+    .pt-benefit:hover { border-color: var(--border-accent); }
+    .pt-benefit-icon {
+      width: 44px; height: 44px;
+      border-radius: var(--radius-sm);
+      background: var(--primary-glow);
+      border: 1px solid var(--border-accent);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--primary);
+      margin-bottom: 14px;
+    }
+    .pt-benefit h4 { color: var(--white); margin-bottom: 6px; font-size: 0.9rem; }
+    .pt-benefit p { font-size: 0.8rem; }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+      counter-reset: step;
+    }
+    .step-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      position: relative;
+    }
+    .step-num {
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--primary);
+      opacity: 0.2;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .step-card h4 { color: var(--white); margin-bottom: 6px; }
+    .step-card p { font-size: 0.82rem; }
+    @media (max-width: 900px) { .steps-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .steps-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Da <span>Gym</span></a>
+      <div class="nav-links">
+        <a href="find-a-gym.html" class="nav-link">Find a Gym</a>
+        <a href="memberships.html" class="nav-link">Memberships</a>
+        <a href="classes.html" class="nav-link">Classes</a>
+        <a href="personal-trainers.html" class="nav-link active">Personal Trainers</a>
+        <a href="about.html" class="nav-link">About</a>
+      </div>
+      <div class="nav-actions">
+        <a href="memberships.html" class="btn btn-primary">Join Now</a>
+        <button class="mobile-menu-btn btn-ghost" id="mobileMenuBtn">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MOBILE NAV -->
+  <div class="mobile-nav" id="mobileNav">
+    <button id="mobileNavClose" style="position:absolute;top:20px;right:20px;color:var(--text);background:none;border:none;font-size:1.5rem;cursor:pointer;">✕</button>
+    <a href="find-a-gym.html" class="nav-link">Find a Gym</a>
+    <a href="memberships.html" class="nav-link">Memberships</a>
+    <a href="classes.html" class="nav-link">Classes</a>
+    <a href="personal-trainers.html" class="nav-link">Personal Trainers</a>
+    <a href="about.html" class="nav-link">About</a>
+    <div style="margin-top:24px;"><a href="memberships.html" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Join Now</a></div>
+  </div>
+
+  <!-- HERO -->
+  <div class="pt-hero" style="background-image:url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=60');background-size:cover;background-position:center top;">
+    <div style="max-width:1400px;margin:0 auto;width:100%;">
+      <span class="section-eyebrow">Personal Trainers</span>
+      <h1 style="margin-bottom:16px;">The friendliest expert <span style="color:var(--primary);">in the room</span></h1>
+      <p style="max-width:580px;margin:0 auto;font-size:1.05rem;">Our certified PTs are passionate, knowledgeable, and ready to build a programme that works for your body, your goals, and your schedule.</p>
+      <div style="display:flex;justify-content:center;gap:12px;margin-top:36px;flex-wrap:wrap;">
+        <a href="#trainers" class="btn btn-primary btn-lg">Find a Trainer</a>
+        <a href="#how-it-works" class="btn btn-outline btn-lg">How It Works</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- BENEFITS -->
+  <div class="section">
+    <div class="section-header" data-animate>
+      <span class="section-eyebrow">Why Work With a PT?</span>
+      <h2>Reach your goals faster</h2>
+      <p>Personal training isn't just for elite athletes. Whatever your starting point, a PT gives you the edge.</p>
+    </div>
+    <div class="pt-benefits">
+      <div class="pt-benefit" data-animate>
+        <div class="pt-benefit-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+        </div>
+        <h4>Personalised Plan</h4>
+        <p>A programme built entirely around your body, goals, and lifestyle — not a generic template.</p>
+      </div>
+      <div class="pt-benefit" data-animate data-delay="1">
+        <div class="pt-benefit-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h4>Safe Technique</h4>
+        <p>Learn correct form from day one to avoid injury and maximise every rep you do.</p>
+      </div>
+      <div class="pt-benefit" data-animate data-delay="2">
+        <div class="pt-benefit-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <h4>Push Your Limits</h4>
+        <p>A great PT knows exactly when and how to push you further than you'd go alone.</p>
+      </div>
+      <div class="pt-benefit" data-animate data-delay="3">
+        <div class="pt-benefit-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        </div>
+        <h4>Accountability</h4>
+        <p>Show up, stay consistent, and see real results. Having someone in your corner makes all the difference.</p>
+      </div>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <div id="how-it-works">
+      <div class="section-header" data-animate>
+        <span class="section-eyebrow">The Process</span>
+        <h2>How it works</h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card" data-animate>
+          <div class="step-num">01</div>
+          <h4>Browse Trainers</h4>
+          <p>Filter by speciality, availability, or location. Each trainer profile shows their qualifications and approach.</p>
+        </div>
+        <div class="step-card" data-animate data-delay="1">
+          <div class="step-num">02</div>
+          <h4>Free Consultation</h4>
+          <p>Book a no-obligation chat to discuss your goals, history, and what you want from your training.</p>
+        </div>
+        <div class="step-card" data-animate data-delay="2">
+          <div class="step-num">03</div>
+          <h4>Get Your Plan</h4>
+          <p>Your PT builds a custom training programme, tracks your progress, and adjusts as you improve.</p>
+        </div>
+        <div class="step-card" data-animate data-delay="3">
+          <div class="step-num">04</div>
+          <h4>Train &amp; Transform</h4>
+          <p>Show up, work hard, and watch the results come. Your PT is there every step of the way.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PT GRID -->
+    <div id="trainers">
+      <div class="section-header" style="margin-top:80px;" data-animate>
+        <span class="section-eyebrow">Our Trainers</span>
+        <h2>Meet the team</h2>
+        <p>All Da Gym personal trainers are fully qualified, insured, and passionate about your progress.</p>
+      </div>
+
+      <div class="pt-grid">
+        <div class="pt-card" data-animate>
+          <div class="pt-card-img" style="position:relative;overflow:hidden;">
+            <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=600&h=280&q=80" alt="Personal Trainer" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+            <div class="pt-card-specialty">Strength &amp; Power</div>
+          </div>
+          <div class="pt-card-body">
+            <div class="pt-card-name">Marcus Hill</div>
+            <p class="pt-card-bio">Former competitive powerlifter with 8 years coaching experience. Specialises in building functional strength for all body types and goals.</p>
+            <div class="pt-card-stats">
+              <div class="pt-stat"><strong>8yr</strong> Experience</div>
+              <div class="pt-stat"><strong>120+</strong> Clients</div>
+              <div class="pt-stat"><strong>4.9★</strong> Rating</div>
+            </div>
+            <a href="#" class="btn btn-outline" style="width:100%;justify-content:center;margin-top:16px;">Book Free Consult</a>
+          </div>
+        </div>
+
+        <div class="pt-card" data-animate data-delay="1">
+          <div class="pt-card-img" style="position:relative;overflow:hidden;">
+            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&h=280&q=80" alt="Personal Trainer" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+            <div class="pt-card-specialty">Yoga &amp; Wellbeing</div>
+          </div>
+          <div class="pt-card-body">
+            <div class="pt-card-name">Priya Nair</div>
+            <p class="pt-card-bio">Registered yoga teacher and mindfulness coach. Priya blends physical fitness with mental wellbeing to help clients thrive inside and outside the gym.</p>
+            <div class="pt-card-stats">
+              <div class="pt-stat"><strong>5yr</strong> Experience</div>
+              <div class="pt-stat"><strong>80+</strong> Clients</div>
+              <div class="pt-stat"><strong>5.0★</strong> Rating</div>
+            </div>
+            <a href="#" class="btn btn-outline" style="width:100%;justify-content:center;margin-top:16px;">Book Free Consult</a>
+          </div>
+        </div>
+
+        <div class="pt-card" data-animate data-delay="2">
+          <div class="pt-card-img" style="position:relative;overflow:hidden;">
+            <img src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?auto=format&fit=crop&w=600&h=280&q=80" alt="Personal Trainer" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+            <div class="pt-card-specialty">HIIT &amp; Cardio</div>
+          </div>
+          <div class="pt-card-body">
+            <div class="pt-card-name">Jake Obi</div>
+            <p class="pt-card-bio">High-energy cardio specialist who's trained professional athletes and complete beginners alike. Makes every session brutally effective and genuinely fun.</p>
+            <div class="pt-card-stats">
+              <div class="pt-stat"><strong>6yr</strong> Experience</div>
+              <div class="pt-stat"><strong>200+</strong> Clients</div>
+              <div class="pt-stat"><strong>4.8★</strong> Rating</div>
+            </div>
+            <a href="#" class="btn btn-outline" style="width:100%;justify-content:center;margin-top:16px;">Book Free Consult</a>
+          </div>
+        </div>
+
+        <div class="pt-card" data-animate data-delay="1">
+          <div class="pt-card-img" style="position:relative;overflow:hidden;">
+            <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&w=600&h=280&q=80" alt="Personal Trainer" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+            <div class="pt-card-specialty">Nutrition &amp; Body Comp</div>
+          </div>
+          <div class="pt-card-body">
+            <div class="pt-card-name">Anya Clarke</div>
+            <p class="pt-card-bio">Certified nutritionist and personal trainer. Anya helps clients understand the connection between food and fitness for sustainable, lasting results.</p>
+            <div class="pt-card-stats">
+              <div class="pt-stat"><strong>7yr</strong> Experience</div>
+              <div class="pt-stat"><strong>150+</strong> Clients</div>
+              <div class="pt-stat"><strong>4.9★</strong> Rating</div>
+            </div>
+            <a href="#" class="btn btn-outline" style="width:100%;justify-content:center;margin-top:16px;">Book Free Consult</a>
+          </div>
+        </div>
+
+        <div class="pt-card" data-animate data-delay="2">
+          <div class="pt-card-img" style="position:relative;overflow:hidden;">
+            <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&h=280&q=80" alt="Personal Trainer" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+            <div class="pt-card-specialty">Rehabilitation</div>
+          </div>
+          <div class="pt-card-body">
+            <div class="pt-card-name">Tom Whitfield</div>
+            <p class="pt-card-bio">Sports rehabilitation expert helping people return to exercise safely after injury. Works closely with physios to deliver evidence-based programmes.</p>
+            <div class="pt-card-stats">
+              <div class="pt-stat"><strong>10yr</strong> Experience</div>
+              <div class="pt-stat"><strong>90+</strong> Clients</div>
+              <div class="pt-stat"><strong>5.0★</strong> Rating</div>
+            </div>
+            <a href="#" class="btn btn-outline" style="width:100%;justify-content:center;margin-top:16px;">Book Free Consult</a>
+          </div>
+        </div>
+
+        <div class="pt-card" data-animate data-delay="3">
+          <div class="pt-card-img" style="position:relative;overflow:hidden;">
+            <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&w=600&h=280&q=80" alt="Personal Trainer" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+            <div class="pt-card-specialty">Women's Fitness</div>
+          </div>
+          <div class="pt-card-body">
+            <div class="pt-card-name">Layla Mensah</div>
+            <p class="pt-card-bio">Specialist in women's fitness at every life stage — from pre/postnatal training to menopause support. Empowering, evidence-based, and endlessly encouraging.</p>
+            <div class="pt-card-stats">
+              <div class="pt-stat"><strong>9yr</strong> Experience</div>
+              <div class="pt-stat"><strong>180+</strong> Clients</div>
+              <div class="pt-stat"><strong>4.9★</strong> Rating</div>
+            </div>
+            <a href="#" class="btn btn-outline" style="width:100%;justify-content:center;margin-top:16px;">Book Free Consult</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div style="background:#00B2A9;padding:72px 24px;text-align:center;">
+    <span style="display:inline-block;font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(0,0,0,0.6);margin-bottom:8px;">Get Started</span>
+    <h2 style="color:#111111;margin:12px 0 16px;">Ready to work with a PT?</h2>
+    <p style="max-width:480px;margin:0 auto 32px;font-size:1rem;color:rgba(0,0,0,0.75);">All consultations are completely free with no obligation. Just pick a trainer and get in touch.</p>
+    <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
+      <a href="#trainers" class="btn btn-primary btn-lg" style="background:#111111;border-color:#111111;color:#ffffff;">Find a Trainer</a>
+      <a href="memberships.html" class="btn btn-outline btn-lg" style="border-color:#111111;color:#111111;">Join Da Gym</a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="nav-logo" style="margin-bottom:14px;">Da <span>Gym</span></div>
+          <p>The UK's largest gym network. No contract, just results.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Get to Know Us</h5>
+          <div class="footer-links">
+            <a href="about.html" class="footer-link">About Da Gym</a>
+            <a href="#" class="footer-link">Careers</a>
+            <a href="#" class="footer-link">Press</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Help &amp; Support</h5>
+          <div class="footer-links">
+            <a href="#" class="footer-link">FAQs</a>
+            <a href="#" class="footer-link">Contact Us</a>
+            <a href="#" class="footer-link">Member Login</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Company</h5>
+          <div class="footer-links">
+            <a href="#" class="footer-link">Investors</a>
+            <a href="#" class="footer-link">Partners</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Serious Stuff</h5>
+          <div class="footer-links">
+            <a href="privacy.html" class="footer-link">Privacy Policy</a>
+            <a href="terms.html" class="footer-link">Terms &amp; Conditions</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Da Gym. All rights reserved.</span>
+        <div class="footer-socials">
+          <a href="https://www.instagram.com/dagym/" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://www.facebook.com/Da Gym/" target="_blank" rel="noopener" class="social-icon" aria-label="Facebook"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.88v2.27h3.32l-.53 3.49h-2.79V24C19.61 23.1 24 18.1 24 12.07z"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

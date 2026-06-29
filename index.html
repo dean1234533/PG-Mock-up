@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>London Stratford Gym | Da Gym</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: #fff; color: #111; line-height: 1.6; overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+    :root {
+      --teal: #00B2A9;
+      --teal-dark: #009990;
+      --red: #E84040;
+      --pill: 100px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; min-width: 0; }
+    html, body { overflow-x: hidden; }
+    img { max-width: 100%; display: block; }
+    .body-text p, .loc-body { overflow-wrap: break-word; word-break: break-word; }
+
+    /* ── BANNER ── */
+    .banner { background: var(--red); color: #fff; text-align: center; padding: 12px 48px; font-size: 0.82rem; font-weight: 600; position: relative; }
+    .banner strong { font-weight: 900; }
+    .banner-x { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: 1rem; cursor: pointer; opacity: 0.8; }
+
+    /* ── NAV ── */
+    .nav { background: #111; position: sticky; top: 0; z-index: 200; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .nav-in { max-width: 1400px; margin: auto; padding: 0 32px; height: 66px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-size: 1.45rem; font-weight: 900; letter-spacing: -0.04em; color: #fff; }
+    .nav-logo span { color: var(--teal); }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a { color: rgba(255,255,255,0.65); font-size: 0.85rem; font-weight: 600; transition: color .2s; }
+    .nav-links a:hover { color: #fff; }
+    .nav-ctas { display: flex; gap: 10px; align-items: center; }
+    .btn-nav-login { color: rgba(255,255,255,0.7); font-size: 0.85rem; font-weight: 600; padding: 8px 16px; border: 1.5px solid rgba(255,255,255,0.2); border-radius: var(--pill); transition: border-color .2s; }
+    .btn-nav-login:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
+    .btn-nav-join { background: var(--teal); color: #fff; font-size: 0.85rem; font-weight: 800; padding: 10px 22px; border-radius: var(--pill); transition: background .2s; }
+    .btn-nav-join:hover { background: var(--teal-dark); }
+
+    /* ── GYM HEADER (white) ── */
+    .gym-header { background: #fff; border-bottom: 1px solid #ebebeb; padding: 36px 32px 28px; }
+    .gym-header-in { max-width: 1400px; margin: auto; display: flex; align-items: flex-start; justify-content: space-between; gap: 32px; }
+    .gym-breadcrumb { font-size: 0.78rem; color: #999; margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
+    .gym-breadcrumb a { color: #999; }
+    .gym-breadcrumb a:hover { color: var(--teal); }
+    .gym-breadcrumb span { color: #ccc; }
+    .gym-name { font-size: clamp(1.9rem, 4vw, 3rem); font-weight: 900; letter-spacing: -0.03em; line-height: 1; margin-bottom: 12px; }
+    .gym-address { display: flex; align-items: center; gap: 7px; font-size: 0.88rem; color: #666; }
+    .gym-address svg { color: var(--teal); flex-shrink: 0; }
+    .gym-header-right { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+    .gym-open-badge { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 700; color: #2a9d2a; }
+    .gym-open-dot { width: 8px; height: 8px; background: #2a9d2a; border-radius: 50%; }
+    .btn-join-gym { background: var(--teal); color: #fff; font-size: 1rem; font-weight: 800; padding: 14px 36px; border-radius: var(--pill); transition: background .2s; }
+    .btn-join-gym:hover { background: var(--teal-dark); }
+
+    /* ── GALLERY ── */
+    .gallery { background: #f4f4f4; padding: 24px 32px; border-bottom: 1px solid #ebebeb; }
+    .gallery-in { max-width: 1400px; margin: auto; display: grid; grid-template-columns: 2fr 1fr; gap: 6px; border-radius: 16px; overflow: hidden; height: 360px; }
+    .gallery-main { background: #1a2a28; position: relative; display: flex; align-items: center; justify-content: center; }
+    .gallery-side { display: grid; grid-template-rows: 1fr 1fr; gap: 6px; }
+    .gallery-slot { background: #243330; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.15); flex-direction: column; gap: 8px; font-size: 0.72rem; font-weight: 600; }
+    .gallery-main .gallery-slot { color: rgba(255,255,255,0.15); width: 100%; height: 100%; }
+    .gallery-view-btn { position: absolute; bottom: 16px; right: 16px; background: #fff; color: #111; font-size: 0.8rem; font-weight: 700; padding: 8px 18px; border-radius: var(--pill); display: flex; align-items: center; gap: 6px; cursor: pointer; }
+    .gallery-count-badge { position: absolute; bottom: 16px; left: 16px; background: rgba(0,0,0,0.55); color: #fff; font-size: 0.75rem; font-weight: 700; padding: 5px 12px; border-radius: var(--pill); }
+
+    /* ── LAYOUT SPLIT ── */
+    .page-body { max-width: 1400px; margin: auto; padding: 40px 32px; display: grid; grid-template-columns: 1fr 360px; gap: 48px; align-items: start; }
+
+    /* ── TABS ── */
+    .tabs { display: flex; gap: 0; border-bottom: 2px solid #ebebeb; margin-bottom: 36px; }
+    .tab-btn { padding: 12px 24px; font-size: 0.88rem; font-weight: 700; color: #888; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all .2s; }
+    .tab-btn.active { color: #111; border-bottom-color: #111; }
+    .tab-btn:hover:not(.active) { color: #444; }
+
+    /* ── PLANS ── */
+    .plans-heading { font-size: 1.5rem; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 6px; }
+    .plans-sub { font-size: 0.88rem; color: #777; margin-bottom: 28px; }
+
+    /* ── PLAN SLIDER ── */
+    .plan-cards-slider { position: relative; margin-bottom: 28px; overflow: hidden; }
+    .plan-cards-viewport { overflow: hidden; width: 100%; max-width: 100%; padding-top: 20px; margin-top: -20px; }
+    .plan-cards { display: flex; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); will-change: transform; }
+    .plan-cards .plan-card { flex: 0 0 100%; width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; flex-direction: column; align-items: stretch; }
+    .plan-cards .plan-card-right { text-align: left; margin-top: 20px; }
+    .slider-controls { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .slider-dots { display: flex; gap: 6px; }
+    .slider-dot { width: 8px; height: 8px; border-radius: 50%; background: #ddd; transition: all .2s; cursor: pointer; }
+    .slider-dot.active { background: var(--teal); width: 24px; border-radius: 4px; }
+    .slider-btns { display: flex; gap: 8px; }
+    .slider-btn { width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid #ddd; background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all .2s; color: #111; }
+    .slider-btn:hover { border-color: var(--teal); color: var(--teal); }
+    .slider-btn:disabled { opacity: 0.3; cursor: default; }
+
+
+
+
+
+
+
+
+
+
+    .plan-card {
+      border: 2px solid #e5e5e5; border-radius: 16px; padding: 24px;
+      display: flex; flex-direction: column; align-items: stretch; gap: 0;
+      position: relative; background: #fafafa; cursor: pointer; transition: all .2s;
+    }
+    .plan-card:hover { border-color: var(--teal); box-shadow: 0 4px 20px rgba(0,178,169,0.1); }
+    .plan-card.best { border-color: var(--teal); background: #fff; box-shadow: 0 4px 24px rgba(0,178,169,0.12); }
+
+    .plan-best-tag { position: absolute; top: -13px; left: 20px; background: var(--teal); color: #fff; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 12px; border-radius: var(--pill); }
+
+    .plan-card-left { flex: 1; }
+    .plan-card-name { font-size: 1.1rem; font-weight: 900; color: #111; margin-bottom: 8px; }
+    .plan-card.best .plan-card-name { color: var(--teal); }
+    .plan-card-features { display: flex; flex-direction: column; gap: 6px; }
+    .plan-feat { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: #555; }
+    .plan-feat svg { color: var(--teal); flex-shrink: 0; }
+
+    .plan-card-right { text-align: right; flex-shrink: 0; }
+    .plan-price-orig { font-size: 0.85rem; color: #aaa; text-decoration: line-through; }
+    .plan-price { font-size: 2.4rem; font-weight: 900; letter-spacing: -0.04em; color: #111; line-height: 1; }
+    .plan-card.best .plan-price { color: var(--teal); }
+    .plan-price-period { font-size: 0.75rem; color: #888; margin-top: 2px; }
+    .plan-price-fee { font-size: 0.72rem; color: #aaa; }
+    .plan-price-save { font-size: 0.72rem; color: var(--teal); font-weight: 700; margin-top: 3px; }
+
+    .btn-select-plan { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 15px; background: #111; color: #fff; font-size: 0.95rem; font-weight: 800; border-radius: var(--pill); transition: background .2s; margin-top: 16px; }
+    .btn-select-plan:hover { background: #333; }
+    .plan-card.best .btn-select-plan { background: var(--teal); }
+    .plan-card.best .btn-select-plan:hover { background: var(--teal-dark); }
+
+    .plans-footer-note { background: #f5f5f5; border-radius: 12px; padding: 18px 20px; display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 32px; }
+    .plans-note-item { display: flex; align-items: center; gap: 7px; font-size: 0.8rem; color: #555; }
+    .plans-note-item svg { color: var(--teal); }
+
+    /* ── ABOUT ── */
+    .section-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: var(--teal); margin-bottom: 10px; }
+    .section-heading { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .body-text { font-size: 0.9rem; color: #555; line-height: 1.8; }
+    .body-text p + p { margin-top: 12px; }
+    .body-text strong { color: #111; }
+
+    /* ── FEATURES GRID ── */
+    .kit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+    .kit-item { background: #f8f8f8; border: 1px solid #ebebeb; border-radius: 12px; padding: 16px; display: flex; align-items: center; gap: 12px; }
+    .kit-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(0,178,169,0.1); border: 1px solid rgba(0,178,169,0.15); display: flex; align-items: center; justify-content: center; color: var(--teal); flex-shrink: 0; }
+    .kit-name { font-size: 0.82rem; font-weight: 700; color: #111; }
+    .kit-desc { font-size: 0.72rem; color: #888; margin-top: 1px; }
+
+    /* ── CLASSES ── */
+    .class-rows { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+    .class-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; background: #fafafa; border: 1px solid #ebebeb; border-radius: 12px; transition: border-color .2s; }
+    .class-row:hover { border-color: var(--teal); }
+    .class-row-left { display: flex; align-items: center; gap: 12px; }
+    .class-tag { background: var(--teal); color: #fff; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; padding: 3px 9px; border-radius: var(--pill); }
+    .class-tag.t2 { background: #1a1a2a; }
+    .class-tag.t3 { background: #2a1a1a; }
+    .class-tag.t4 { background: #1a2a2a; }
+    .class-name-txt { font-size: 0.9rem; font-weight: 700; color: #111; }
+    .class-times-txt { font-size: 0.75rem; color: #888; }
+    .class-row-right { font-size: 0.75rem; color: #aaa; }
+
+    .btn-view-all { display: inline-flex; align-items: center; gap: 7px; margin-top: 16px; border: 2px solid #e0e0e0; border-radius: var(--pill); padding: 11px 24px; font-size: 0.85rem; font-weight: 700; color: #111; transition: border-color .2s; }
+    .btn-view-all:hover { border-color: #111; }
+
+    /* ── SIDEBAR ── */
+    .sidebar { display: flex; flex-direction: column; gap: 16px; }
+
+    .sidebar-card { background: #f7f6f4; border-radius: 16px; padding: 24px; border: 1px solid #ebebeb; }
+    .sidebar-card-title { font-size: 1rem; font-weight: 800; color: #111; margin-bottom: 4px; }
+    .sidebar-hours-main { font-size: 1.6rem; font-weight: 900; color: #111; }
+    .sidebar-hours-sub { font-size: 0.8rem; color: #888; margin-bottom: 16px; }
+    .sidebar-hours-divider { border: none; border-top: 1px solid #ddd; margin: 16px 0; }
+    .sidebar-staffed-row { display: flex; justify-content: space-between; font-size: 0.82rem; padding: 5px 0; border-bottom: 1px solid #eee; }
+    .sidebar-staffed-row:last-child { border-bottom: none; }
+    .sidebar-staffed-day { color: #777; }
+    .sidebar-staffed-time { font-weight: 700; color: #111; }
+
+    .sidebar-features-list { margin-top: 8px; display: flex; flex-direction: column; }
+    .sidebar-feat { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid #eee; }
+    .sidebar-feat:last-child { border-bottom: none; }
+    .sidebar-feat-icon { width: 36px; height: 36px; border-radius: 50%; background: rgba(0,178,169,0.1); border: 1px solid rgba(0,178,169,0.15); display: flex; align-items: center; justify-content: center; color: var(--teal); flex-shrink: 0; }
+    .sidebar-feat-name { font-size: 0.85rem; font-weight: 700; color: #111; }
+    .sidebar-feat-desc { font-size: 0.75rem; color: #888; margin-top: 1px; }
+
+    .sidebar-join-card { background: #111; border-radius: 16px; padding: 24px; }
+    .sidebar-join-title { font-size: 1.1rem; font-weight: 900; color: #fff; margin-bottom: 6px; }
+    .sidebar-join-sub { font-size: 0.82rem; color: rgba(255,255,255,0.5); margin-bottom: 20px; line-height: 1.6; }
+    .btn-sidebar-join { display: flex; align-items: center; justify-content: space-between; background: var(--teal); color: #fff; font-size: 0.9rem; font-weight: 800; padding: 14px 20px; border-radius: var(--pill); transition: background .2s; }
+    .btn-sidebar-join:hover { background: var(--teal-dark); }
+    .sidebar-price { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 12px; text-align: center; }
+
+    /* ── DARK PROMO ── */
+    .dark-promo { background: #111; margin: 48px 0 0; border-radius: 20px; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; }
+    .promo-panel { padding: 40px; display: flex; flex-direction: column; justify-content: flex-end; min-height: 200px; position: relative; border-right: 1px solid rgba(255,255,255,0.08); background-size: cover; background-position: center; }
+    .promo-panel::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.15) 100%); pointer-events: none; }
+    .promo-panel > * { position: relative; z-index: 1; }
+    .promo-panel:last-child { border-right: none; }
+    .promo-label { font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--teal); margin-bottom: 8px; }
+    .promo-title { font-size: 1.3rem; font-weight: 900; color: #fff; line-height: 1.2; margin-bottom: 16px; font-style: italic; }
+    .promo-link { display: inline-flex; align-items: center; gap: 6px; color: #fff; font-size: 0.82rem; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 2px; }
+
+    /* ── LOCATION ── */
+    .location-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 12px; align-items: start; }
+    .map-box { border-radius: 16px; overflow: hidden; height: 260px; }
+    .transport-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+    .t-btn { padding: 7px 16px; border-radius: var(--pill); font-size: 0.78rem; font-weight: 700; border: 1.5px solid #ddd; color: #666; transition: all .2s; }
+    .t-btn.active { background: #111; color: #fff; border-color: #111; }
+    .t-btn:hover:not(.active) { border-color: #999; }
+    .loc-heading { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--teal); margin-bottom: 6px; }
+    .loc-body { font-size: 0.85rem; color: #555; line-height: 1.7; }
+    .loc-body strong { color: #111; }
+
+    /* ── FOOTER ── */
+    .footer { background: #0d2420; margin-top: 80px; }
+    .footer-in { max-width: 1400px; margin: auto; padding: 56px 32px 32px; display: grid; grid-template-columns: 200px 1fr 1fr 1fr; gap: 48px; }
+    .footer-logo { font-size: 1.3rem; font-weight: 900; letter-spacing: -0.03em; color: #fff; margin-bottom: 10px; }
+    .footer-logo span { color: var(--teal); }
+    .footer-tagline { font-size: 0.8rem; color: rgba(255,255,255,0.38); line-height: 1.6; }
+    .footer-col-head { font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.35); margin-bottom: 16px; }
+    .footer-col a { display: block; color: rgba(255,255,255,0.6); font-size: 0.83rem; margin-bottom: 9px; transition: color .2s; }
+    .footer-col a:hover { color: #fff; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.07); max-width: 1400px; margin: auto; padding: 20px 32px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .footer-legal { font-size: 0.73rem; color: rgba(255,255,255,0.28); line-height: 1.6; }
+    .footer-socials { display: flex; gap: 8px; }
+    .soc { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.55); transition: all .2s; }
+    .soc:hover { background: var(--teal); color: #fff; }
+
+    /* ── MOBILE MENU ── */
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; }
+    .nav-hamburger span { display: block; width: 22px; height: 2px; background: #fff; border-radius: 2px; transition: all .2s; }
+    .mobile-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.97); z-index: 500; flex-direction: column; padding: 80px 32px 40px; gap: 8px; }
+    .mobile-overlay.open { display: flex; }
+    .mobile-overlay a { color: rgba(255,255,255,0.75); font-size: 1.3rem; font-weight: 700; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.08); transition: color .2s; }
+    .mobile-overlay a:hover { color: #fff; }
+    .mobile-overlay-close { position: absolute; top: 20px; right: 24px; color: #fff; background: none; border: none; font-size: 1.6rem; cursor: pointer; line-height: 1; }
+    .mobile-overlay-ctas { display: flex; gap: 10px; margin-top: 24px; }
+    .mobile-overlay-ctas a { flex: 1; text-align: center; font-size: 1rem !important; padding: 14px 0 !important; border-radius: 100px !important; border: none !important; }
+    .mobile-overlay-ctas .btn-nav-login { border: 1.5px solid rgba(255,255,255,0.3) !important; border-radius: 100px !important; }
+    .mobile-overlay-ctas .btn-nav-join { background: var(--teal); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .page-body { grid-template-columns: 1fr; }
+      .sidebar { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .dark-promo { grid-template-columns: 1fr; }
+      .promo-panel { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .location-layout { grid-template-columns: 1fr; }
+      .footer-in { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-ctas { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-in { padding: 0 20px; }
+      .gym-header { padding: 24px 20px 20px; }
+      .gym-header-in { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .gym-header-right { align-items: flex-start; width: 100%; }
+      .btn-join-gym { width: 100%; text-align: center; justify-content: center; display: block; }
+      .gallery { padding: 16px 20px; }
+      .gallery-in { height: 220px; grid-template-columns: 1fr; }
+      .gallery-side { display: none; }
+      .page-body { padding: 24px 20px; gap: 32px; }
+      .kit-grid { grid-template-columns: 1fr; }
+      .sidebar { grid-template-columns: 1fr; }
+      .footer { padding: 40px 20px 24px; }
+      .footer-in { grid-template-columns: 1fr 1fr; gap: 28px; padding: 0; }
+      .footer-bottom { padding: 20px 0; }
+      .dark-promo { margin: 32px 0 0; }
+      .promo-panel { padding: 28px 20px; }
+      .tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; gap: 0; }
+      .tab-btn { white-space: nowrap; padding: 12px 16px; font-size: 0.82rem; }
+      .class-row { flex-wrap: wrap; gap: 8px; }
+      .class-row-right { width: 100%; padding-top: 4px; border-top: 1px solid #f0f0f0; }
+    }
+    @media (max-width: 480px) {
+      .nav-in { padding: 0 16px; }
+      .gym-header { padding: 20px 16px; }
+      .gallery { padding: 12px 16px; }
+      .gallery-in { height: 180px; }
+      .page-body { padding: 20px 16px; gap: 24px; }
+      .footer { padding: 32px 16px 20px; }
+      .footer-in { grid-template-columns: 1fr; gap: 20px; padding: 0; }
+      .footer-bottom { flex-direction: column; gap: 10px; text-align: center; padding: 16px 0; }
+      .plans-heading { font-size: 1.2rem; }
+      .section-heading { font-size: 1.2rem; }
+      .gym-name { font-size: clamp(1.5rem, 7vw, 2.2rem); }
+      .sidebar-join-card { padding: 20px; }
+      .banner { font-size: 0.74rem; padding: 10px 40px; }
+      .dark-promo { border-radius: 14px; }
+      .promo-panel { padding: 24px 16px; min-height: 160px; }
+      .location-layout { gap: 24px; }
+      .kit-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- BANNER -->
+<div id="banner" class="banner">
+  Get <strong>£0 joining fee</strong> — Women's Workout Space coming to Stratford. Use code: <strong>ZEROJF</strong>. Ends soon.
+  <span class="banner-x" onclick="document.getElementById('banner').remove()">✕</span>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-in">
+    <a href="index.html" class="nav-logo">Da <span>Gym</span></a>
+    <div class="nav-links">
+      <a href="find-a-gym.html">Find a Gym</a>
+      <a href="memberships.html">Membership</a>
+      <a href="classes.html">Classes</a>
+      <a href="personal-trainers.html">Personal Trainers</a>
+      <a href="about.html">About</a>
+    </div>
+    <div class="nav-ctas">
+      <a href="#" class="btn-nav-login">Log In</a>
+      <a href="memberships.html" class="btn-nav-join">Join Now</a>
+    </div>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE NAV OVERLAY -->
+<div class="mobile-overlay" id="mobileOverlay">
+  <button class="mobile-overlay-close" id="mobileOverlayClose">✕</button>
+  <a href="find-a-gym.html">Find a Gym</a>
+  <a href="memberships.html">Membership</a>
+  <a href="classes.html">Classes</a>
+  <a href="personal-trainers.html">Personal Trainers</a>
+  <a href="about.html">About</a>
+  <div class="mobile-overlay-ctas">
+    <a href="#" class="btn-nav-login">Log In</a>
+    <a href="memberships.html" class="btn-nav-join">Join Now</a>
+  </div>
+</div>
+
+<!-- GYM HEADER -->
+<div class="gym-header">
+  <div class="gym-header-in">
+    <div>
+      <div class="gym-breadcrumb">
+        <a href="index.html">Gyms</a>
+        <span>›</span>
+        <a href="index.html">East London</a>
+        <span>›</span>
+        London Stratford
+      </div>
+      <h1 class="gym-name">London Stratford Gym</h1>
+      <div class="gym-address">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        68/7 The Mall, Stratford Centre, London, E15 1XQ
+      </div>
+    </div>
+    <div class="gym-header-right">
+      <div class="gym-open-badge">
+        <div class="gym-open-dot"></div>
+        Open now · 24/7
+      </div>
+      <a href="memberships.html" class="btn-join-gym">Join this gym</a>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div class="gallery">
+  <div class="gallery-in">
+    <div class="gallery-main" style="position:relative;overflow:hidden;">
+      <img src="https://images.unsplash.com/photo-1554284126-aa88f22d9f7a?auto=format&fit=crop&w=1000&h=400&q=80" alt="Da Gym Stratford main gym floor" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;"/>
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.35) 0%,transparent 50%);"></div>
+      <div class="gallery-count-badge">+ 4 photos</div>
+      <button class="gallery-view-btn">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        View Gallery
+      </button>
+    </div>
+    <div class="gallery-side">
+      <div class="gallery-slot" style="position:relative;overflow:hidden;">
+        <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&w=500&h=180&q=80" alt="Cardio Suite" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;"/>
+        <span style="position:relative;color:#fff;font-size:0.72rem;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.6);">Cardio Suite</span>
+      </div>
+      <div class="gallery-slot" style="position:relative;overflow:hidden;">
+        <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=500&h=180&q=80" alt="Functional Zone" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;"/>
+        <span style="position:relative;color:#fff;font-size:0.72rem;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,0.6);">Free Weights</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE BODY -->
+<div class="page-body">
+
+  <!-- MAIN CONTENT -->
+  <div>
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab-btn active">Gym Details</button>
+      <button class="tab-btn" onclick="window.location='classes.html'">Classes</button>
+      <button class="tab-btn" onclick="window.location='personal-trainers.html'">Personal Trainers</button>
+    </div>
+
+    <!-- MEMBERSHIP PLANS -->
+    <div class="section-label">Membership</div>
+    <h2 class="plans-heading">Join London Stratford</h2>
+    <p class="plans-sub">No contract. Cancel anytime. Classes included in your membership.</p>
+
+    <div class="plan-cards-slider">
+      <div class="slider-controls">
+        <div class="slider-dots">
+          <div class="slider-dot active" onclick="goToSlide(0)"></div>
+          <div class="slider-dot" onclick="goToSlide(1)"></div>
+          <div class="slider-dot" onclick="goToSlide(2)"></div>
+        </div>
+        <div class="slider-btns">
+          <button class="slider-btn" id="planPrev" onclick="slidePlans(-1)" aria-label="Previous"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <button class="slider-btn" id="planNext" onclick="slidePlans(1)" aria-label="Next"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
+        </div>
+      </div>
+      <div class="plan-cards-viewport">
+      <div class="plan-cards" id="planSlider">
+
+      <!-- OFF-PEAK -->
+      <div class="plan-card">
+        <div class="plan-card-left">
+          <div class="plan-card-name">Off-Peak</div>
+          <div class="plan-card-features">
+            <div class="plan-feat">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+              Limited access hours
+            </div>
+            <div class="plan-feat">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+              Classes included*
+            </div>
+            <div class="plan-feat">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+              No contract
+            </div>
+          </div>
+        </div>
+        <div class="plan-card-right">
+          <div class="plan-price">£23.99</div>
+          <div class="plan-price-period">per month</div>
+          <div class="plan-price-fee">+ £15 joining fee</div>
+          <a href="memberships.html" class="btn-select-plan" style="margin-top:14px;">
+            Join Off-Peak
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- CORE -->
+      <div class="plan-card">
+        <div class="plan-card-left">
+          <div class="plan-card-name">Core</div>
+          <div class="plan-card-features">
+            <div class="plan-feat">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+              Unlimited access, anytime
+            </div>
+            <div class="plan-feat">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+              Classes included*
+            </div>
+            <div class="plan-feat">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+              No contract
+            </div>
+          </div>
+        </div>
+        <div class="plan-card-right">
+          <div class="plan-price">£32.99</div>
+          <div class="plan-price-period">per month</div>
+          <div class="plan-price-fee">+ £15 joining fee</div>
+          <a href="memberships.html" class="btn-select-plan" style="margin-top:14px;">
+            Join Core
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- PLUS -->
+      <div class="plan-card best">
+        <div class="plan-best-tag">★ Best Value</div>
+        <div class="plan-card-left">
+          <div class="plan-card-name">Plus</div>
+          <div class="plan-card-features">
+            <div class="plan-feat">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+              Access 300+ gyms across the UK
+            </div>
+            <div class="plan-feat">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+              Bring a guest up to 4× a month
+            </div>
+            <div class="plan-feat">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+              Freeze membership anytime
+            </div>
+            <div class="plan-feat">
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+              Up to 60% off top brands
+            </div>
+          </div>
+        </div>
+        <div class="plan-card-right">
+          <div class="plan-price-orig">£39.99</div>
+          <div class="plan-price">£32.99</div>
+          <div class="plan-price-period">per month</div>
+          <div class="plan-price-fee">+ £15 joining fee</div>
+          <div class="plan-price-save">Save £7 in your first month</div>
+          <a href="memberships.html" class="btn-select-plan" style="margin-top:14px;">
+            Join Plus
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      </div>
+      </div>
+    </div>
+
+    <div class="plans-footer-note">
+      <div class="plans-note-item"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> No contract</div>
+      <div class="plans-note-item"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Cancel anytime</div>
+      <div class="plans-note-item"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Classes included*</div>
+      <div class="plans-note-item"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Da Gym app</div>
+    </div>
+
+    <!-- ABOUT -->
+    <div style="padding-top: 8px; border-top: 1px solid #ebebeb; margin-bottom: 40px;">
+      <div class="section-label" style="margin-top:32px;">About This Gym</div>
+      <h2 class="section-heading">Da Gym London Stratford</h2>
+      <div class="body-text">
+        <p><strong>One of East London's biggest and best-equipped gyms</strong>, located in the heart of Stratford Centre — steps from Stratford Station and Westfield.</p>
+        <p>We've got a massive free weights area with Olympic lifting platforms, 220+ pieces of cardio and resistance kit, cables, and a functional training zone — plus a full class timetable all included in your membership.</p>
+        <p>Open 24/7, no long-term contracts. Start today and cancel anytime. A <strong>Women's Workout Space</strong> is coming soon, with a dedicated area for lifting, cables, and more.</p>
+      </div>
+    </div>
+
+    <!-- WHAT'S INSIDE -->
+    <div style="margin-bottom: 40px;">
+      <div class="section-label">Equipment</div>
+      <h2 class="section-heading">What's inside</h2>
+      <div class="kit-grid">
+        <div class="kit-item">
+          <div class="kit-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="6" width="6" height="12" rx="1"/><rect x="16" y="6" width="6" height="12" rx="1"/><path d="M8 12h8M2 9h2M20 9h2M2 15h2M20 15h2"/></svg></div>
+          <div><div class="kit-name">50kg Dumbbells</div><div class="kit-desc">Full free weights range + Olympic bars</div></div>
+        </div>
+        <div class="kit-item">
+          <div class="kit-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+          <div><div class="kit-name">220+ Pieces of Kit</div><div class="kit-desc">Cardio, resistance and functional</div></div>
+        </div>
+        <div class="kit-item">
+          <div class="kit-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+          <div><div class="kit-name">Climbmills & Steppers</div><div class="kit-desc">Plus rowers and cross trainers</div></div>
+        </div>
+        <div class="kit-item">
+          <div class="kit-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 20V10l4-4h8l4 4v10M4 20h16"/></svg></div>
+          <div><div class="kit-name">Cable Machines & Rig</div><div class="kit-desc">Functional zone with battle ropes</div></div>
+        </div>
+        <div class="kit-item">
+          <div class="kit-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg></div>
+          <div><div class="kit-name">Air Con</div><div class="kit-desc">Temperature controlled throughout</div></div>
+        </div>
+        <div class="kit-item">
+          <div class="kit-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div><div class="kit-name">Women's Space</div><div class="kit-desc">Coming soon — dedicated lifting area</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLASSES -->
+    <div style="margin-bottom: 40px; padding-top: 32px; border-top: 1px solid #ebebeb;">
+      <div class="section-label">Included in Membership</div>
+      <h2 class="section-heading">Classes at Stratford</h2>
+      <div class="class-rows">
+        <div class="class-row">
+          <div class="class-row-left">
+            <span class="class-tag">Strength</span>
+            <div><div class="class-name-txt">Barbell Strength</div><div class="class-times-txt">Mon / Wed / Fri · 6:30am</div></div>
+          </div>
+          <div class="class-row-right">45 min</div>
+        </div>
+        <div class="class-row">
+          <div class="class-row-left">
+            <span class="class-tag t2">Cardio</span>
+            <div><div class="class-name-txt">Cycle Rush</div><div class="class-times-txt">Tue / Thu / Sat · 7:00am</div></div>
+          </div>
+          <div class="class-row-right">45 min</div>
+        </div>
+        <div class="class-row">
+          <div class="class-row-left">
+            <span class="class-tag t3">HIIT</span>
+            <div><div class="class-name-txt">Combat HIIT</div><div class="class-times-txt">Mon / Thu / Sat · 6:00pm</div></div>
+          </div>
+          <div class="class-row-right">30 min</div>
+        </div>
+        <div class="class-row">
+          <div class="class-row-left">
+            <span class="class-tag t4">Mind & Body</span>
+            <div><div class="class-name-txt">Power Yoga</div><div class="class-times-txt">Wed / Sat / Sun · 9:00am</div></div>
+          </div>
+          <div class="class-row-right">60 min</div>
+        </div>
+      </div>
+      <a href="classes.html" class="btn-view-all">
+        View full timetable
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <!-- PROMO PANELS -->
+    <div class="dark-promo">
+      <div class="promo-panel" style="background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&h=400&q=80');">
+        <div class="promo-label">Virtual Tour</div>
+        <div class="promo-title">360° tour of<br>London Stratford</div>
+        <a href="#" class="promo-link">View Tour <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <div class="promo-panel" style="background-image: url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=800&h=400&q=80');">
+        <div class="promo-label">Personal Training</div>
+        <div class="promo-title">Train with an expert PT<br>at Stratford</div>
+        <a href="personal-trainers.html" class="promo-link">Find a PT <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </div>
+
+    <!-- LOCATION -->
+    <div style="padding-top: 40px; margin-top: 40px; border-top: 1px solid #ebebeb;" id="location">
+      <div class="section-label">Getting Here</div>
+      <h2 class="section-heading">Find us in Stratford Centre</h2>
+      <div class="location-layout">
+        <div class="map-box" style="padding:0;background:none;border:none;">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2482.378!2d-0.00713!3d51.54137!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a788d1a6c3ab%3A0x2f1a3c5e6b8d4e2f!2sDa Gym%20London%20Stratford!5e0!3m2!1sen!2suk!4v1700000000000"
+            width="100%"
+            height="100%"
+            style="border:0;display:block;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Da Gym London Stratford location map">
+          </iframe>
+        </div>
+        <div>
+          <div class="transport-btns">
+            <button class="t-btn active">Driving</button>
+            <button class="t-btn">Tube</button>
+            <button class="t-btn">Bus</button>
+            <button class="t-btn">Walk</button>
+          </div>
+          <div class="loc-heading">Address</div>
+          <div class="loc-body" style="margin-bottom:16px;">68/7 The Mall, Stratford Centre,<br><strong>London E15 1XQ</strong><br>Near CeX, Iceland &amp; Market Village.</div>
+          <div class="loc-heading">Parking</div>
+          <div class="loc-body" style="margin-bottom:16px;">Parking at Stratford Centre — enter <strong>E15 1XE</strong> into SatNav. Pay and display.</div>
+          <div class="loc-heading">Contact</div>
+          <div class="loc-body">
+            <a href="#" style="color:var(--teal);font-weight:700;">Email Us</a> &nbsp;·&nbsp;
+            <a href="#" style="color:var(--teal);font-weight:700;">Facebook Messenger</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">Gym Hours</div>
+      <div class="sidebar-hours-main">24 hours</div>
+      <div class="sidebar-hours-sub">Open every day of the year</div>
+      <hr class="sidebar-hours-divider">
+      <div style="font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:#aaa;margin-bottom:10px;">Staffed Hours</div>
+      <div class="sidebar-staffed-row"><span class="sidebar-staffed-day">Mon – Fri</span><span class="sidebar-staffed-time">6:30am – 10pm</span></div>
+      <div class="sidebar-staffed-row"><span class="sidebar-staffed-day">Saturday</span><span class="sidebar-staffed-time">8am – 8pm</span></div>
+      <div class="sidebar-staffed-row"><span class="sidebar-staffed-day">Sunday</span><span class="sidebar-staffed-time">9am – 6pm</span></div>
+    </div>
+
+    <div class="sidebar-card">
+      <div class="sidebar-card-title" style="margin-bottom:14px;">Gym Features</div>
+      <div class="sidebar-features-list">
+        <div class="sidebar-feat">
+          <div class="sidebar-feat-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div><div class="sidebar-feat-name">No Contract</div><div class="sidebar-feat-desc">Cancel anytime, no fees</div></div>
+        </div>
+        <div class="sidebar-feat">
+          <div class="sidebar-feat-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="6" width="6" height="12" rx="1"/><rect x="16" y="6" width="6" height="12" rx="1"/><path d="M8 12h8M2 9h2M20 9h2M2 15h2M20 15h2"/></svg></div>
+          <div><div class="sidebar-feat-name">50kg Dumbbells</div><div class="sidebar-feat-desc">Full range free weights</div></div>
+        </div>
+        <div class="sidebar-feat">
+          <div class="sidebar-feat-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+          <div><div class="sidebar-feat-name">220+ Pieces of Kit</div><div class="sidebar-feat-desc">Cardio, weights, functional</div></div>
+        </div>
+        <div class="sidebar-feat">
+          <div class="sidebar-feat-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg></div>
+          <div><div class="sidebar-feat-name">Air Con</div><div class="sidebar-feat-desc">Climate controlled</div></div>
+        </div>
+        <div class="sidebar-feat">
+          <div class="sidebar-feat-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22V12M12 12c-2.8 0-5-2.2-5-5s2.2-5 5-5 5 2.2 5 5-2.2 5-5 5z"/></svg></div>
+          <div><div class="sidebar-feat-name">Free Sports Water</div><div class="sidebar-feat-desc">Vitamins water, unlimited*</div></div>
+        </div>
+        <div class="sidebar-feat">
+          <div class="sidebar-feat-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+          <div><div class="sidebar-feat-name">PTs Available</div><div class="sidebar-feat-desc">Expert personal trainers on-site</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-join-card">
+      <div class="sidebar-join-title">Ready to start?</div>
+      <div class="sidebar-join-sub">Join London Stratford today. No contract, no joining fee with code ZEROJF.</div>
+      <a href="memberships.html" class="btn-sidebar-join">
+        Join Now
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <div class="sidebar-price">From £23.99 / month</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-in">
+    <div>
+      <div class="footer-logo">Da <span>Gym</span></div>
+      <div class="footer-tagline">No joining fee. No contract. Great gyms at prices everyone can afford.</div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-head">Get to know us</div>
+      <a href="about.html">About Da Gym</a>
+      <a href="#">Careers</a>
+      <a href="#">Press</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-head">Help & Support</div>
+      <a href="#">FAQs</a>
+      <a href="#">Contact Us</a>
+      <a href="#">Member Login</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-head">Membership</div>
+      <a href="memberships.html">Off-Peak — £23.99/mo</a>
+      <a href="memberships.html">Core — £32.99/mo</a>
+      <a href="memberships.html">Plus — £32.99/mo</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-legal">© 2026 Da Gym. Registered in England</div>
+    <div class="footer-socials">
+      <a href="https://www.instagram.com/dagym/" target="_blank" rel="noopener" class="soc" aria-label="Instagram"><svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg></a>
+      <a href="https://www.tiktok.com/@dagym" target="_blank" rel="noopener" class="soc" aria-label="TikTok"><svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg></a>
+      <a href="https://www.facebook.com/Da Gym/" target="_blank" rel="noopener" class="soc" aria-label="Facebook"><svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.88v2.27h3.32l-.53 3.49h-2.79V24C19.61 23.1 24 18.1 24 12.07z"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.t-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.t-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+  let planIndex = 0;
+  const planTotal = 3;
+  function slidePlans(dir) { goToSlide(planIndex + dir); }
+  function goToSlide(idx) {
+    planIndex = Math.max(0, Math.min(planTotal - 1, idx));
+    const vp = document.querySelector('.plan-cards-viewport');
+    const w = vp ? vp.offsetWidth : 0;
+    document.getElementById('planSlider').style.transform = `translateX(-${planIndex * w}px)`;
+    document.querySelectorAll('.slider-dot').forEach((d, i) => d.classList.toggle('active', i === planIndex));
+    document.getElementById('planPrev').disabled = planIndex === 0;
+    document.getElementById('planNext').disabled = planIndex === planTotal - 1;
+  }
+  goToSlide(0);
+  window.addEventListener('resize', () => goToSlide(planIndex));
+
+  // Mobile nav
+  const hamburger = document.getElementById('navHamburger');
+  const overlay = document.getElementById('mobileOverlay');
+  const overlayClose = document.getElementById('mobileOverlayClose');
+  if (hamburger) {
+    hamburger.addEventListener('click', () => {
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  }
+  if (overlayClose) {
+    overlayClose.addEventListener('click', () => {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  }
+</script>
+
+</body>
+</html>

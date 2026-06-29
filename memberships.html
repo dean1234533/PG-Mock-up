@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Da Gym — Membership Plans</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <style>
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin-top: 48px;
+    }
+    .compare-table th, .compare-table td {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+    .compare-table th:first-child,
+    .compare-table td:first-child {
+      text-align: left;
+      color: var(--text-muted);
+    }
+    .compare-table th {
+      color: var(--text);
+      font-weight: 700;
+      font-size: 0.9rem;
+      background: var(--surface);
+      position: sticky;
+      top: 0;
+    }
+    .compare-table th.featured-col { color: var(--primary); }
+    .compare-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .compare-table .check { color: var(--primary); font-size: 1rem; }
+    .compare-table .dash { color: var(--text-dim); }
+
+    .faq-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    .faq-question {
+      width: 100%;
+      text-align: left;
+      padding: 20px 24px;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      transition: color var(--transition);
+    }
+    .faq-question:hover { color: var(--primary); }
+    .faq-answer {
+      padding: 0 24px 20px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      line-height: 1.7;
+      display: none;
+    }
+    .faq-item.open .faq-answer { display: block; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-icon { transition: transform var(--transition); color: var(--text-dim); flex-shrink: 0; }
+
+    .trust-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+      padding: 40px 24px;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .trust-item svg { color: var(--primary); }
+
+    /* ── MEMBERSHIP SLIDER ── */
+    .mem-slider-wrap { position: relative; }
+    .mem-slider-controls { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .mem-slider-dots { display: flex; gap: 6px; }
+    .mem-slider-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); cursor: pointer; transition: all .2s; }
+    .mem-slider-dot.active { background: var(--primary); width: 24px; border-radius: 4px; }
+    .mem-slider-btns { display: flex; gap: 8px; }
+    .mem-slider-btn { width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid var(--border); background: var(--card); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all .2s; color: var(--text); }
+    .mem-slider-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .mem-slider-btn:disabled { opacity: 0.3; cursor: default; }
+    .mem-viewport { overflow: hidden; width: 100%; }
+    .mem-cards-track { display: flex; gap: 0; align-items: stretch; transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); will-change: transform; }
+    .mem-cards-track .membership-card { flex: 0 0 100%; width: 100%; max-width: 100%; min-width: 0; box-sizing: border-box; }
+
+    @media (max-width: 768px) {
+      .trust-bar { gap: 24px; flex-wrap: wrap; padding: 28px 20px; }
+      .compare-table th, .compare-table td { padding: 10px 12px; font-size: 0.78rem; }
+    }
+    @media (max-width: 480px) {
+      .trust-bar { flex-direction: column; gap: 16px; align-items: flex-start; padding: 24px 16px; }
+      .compare-table { font-size: 0.72rem; }
+      .compare-table th, .compare-table td { padding: 8px; }
+      .faq-question { padding: 16px 18px; font-size: 0.85rem; }
+      .faq-answer { padding: 0 18px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Da <span>Gym</span></a>
+      <div class="nav-links">
+        <a href="find-a-gym.html" class="nav-link">Find a Gym</a>
+        <a href="memberships.html" class="nav-link active">Memberships</a>
+        <a href="classes.html" class="nav-link">Classes</a>
+        <a href="personal-trainers.html" class="nav-link">Personal Trainers</a>
+        <a href="about.html" class="nav-link">About</a>
+      </div>
+      <div class="nav-actions">
+        <a href="memberships.html" class="btn btn-primary">Join Now</a>
+        <button class="mobile-menu-btn btn-ghost" id="mobileMenuBtn">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MOBILE NAV -->
+  <div class="mobile-nav" id="mobileNav">
+    <button id="mobileNavClose" style="position:absolute;top:20px;right:20px;color:var(--text);background:none;border:none;font-size:1.5rem;cursor:pointer;">✕</button>
+    <a href="find-a-gym.html" class="nav-link">Find a Gym</a>
+    <a href="memberships.html" class="nav-link">Memberships</a>
+    <a href="classes.html" class="nav-link">Classes</a>
+    <a href="personal-trainers.html" class="nav-link">Personal Trainers</a>
+    <a href="about.html" class="nav-link">About</a>
+    <div style="margin-top:24px;"><a href="memberships.html" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Join Now</a></div>
+  </div>
+
+  <!-- PAGE HEADER -->
+  <div style="background:var(--surface);border-bottom:1px solid var(--border);padding:80px 24px 60px;text-align:center;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(0,212,170,0.06) 0%,transparent 70%);"></div>
+    <div style="position:relative;">
+      <span class="section-eyebrow">Memberships</span>
+      <h1 style="margin-bottom:16px;">Simple, flexible <span style="color:var(--primary);">plans</span></h1>
+      <p style="max-width:520px;margin:0 auto;font-size:1.05rem;">No contract, no hidden fees. Choose the plan that works for you and cancel anytime.</p>
+    </div>
+  </div>
+
+  <!-- TRUST BAR -->
+  <div class="trust-bar">
+    <div class="trust-item">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      No Contract
+    </div>
+    <div class="trust-item">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      Open 24/7
+    </div>
+    <div class="trust-item">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+      Cancel Anytime
+    </div>
+    <div class="trust-item">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="6" width="6" height="12" rx="1"/><rect x="16" y="6" width="6" height="12" rx="1"/><path d="M8 12h8"/></svg>
+      220+ Pieces of Kit
+    </div>
+    <div class="trust-item">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Unlimited Classes
+    </div>
+  </div>
+
+  <!-- MEMBERSHIP CARDS -->
+  <div class="section">
+    <div class="mem-slider-wrap">
+      <div class="mem-slider-controls">
+        <div class="mem-slider-dots">
+          <div class="mem-slider-dot active" onclick="memGoTo(0)"></div>
+          <div class="mem-slider-dot" onclick="memGoTo(1)"></div>
+          <div class="mem-slider-dot" onclick="memGoTo(2)"></div>
+        </div>
+        <div class="mem-slider-btns">
+          <button class="mem-slider-btn" id="memPrev" onclick="memSlide(-1)" aria-label="Previous"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <button class="mem-slider-btn" id="memNext" onclick="memSlide(1)" aria-label="Next"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
+        </div>
+      </div>
+      <div class="mem-viewport">
+    <div class="mem-cards-track" id="memSlider">
+      <!-- OFF-PEAK -->
+      <div class="membership-card">
+        <div class="membership-card-body">
+          <div class="membership-name">Off-Peak</div>
+          <p class="membership-desc">Perfect for flexible workers. Train at off-peak times and save.</p>
+          <div class="membership-price">
+            <div class="amount">£23<span style="font-size:1.2rem;">.99</span></div>
+            <span class="per">per month + £1 joining fee</span>
+          </div>
+          <div class="membership-features">
+            <div class="membership-feature">
+              <span class="check">✓</span> Access to the gym
+            </div>
+            <div class="membership-feature">
+              <span class="check">✓</span> Book classes 6 days in advance
+            </div>
+            <div class="membership-feature">
+              <span class="check">✓</span> Work classes 6 days in advance
+            </div>
+            <div class="membership-feature">
+              <span class="x-icon">—</span> 24/7 access (off-peak only: 6am–4pm &amp; 10pm–midnight)
+            </div>
+            <div class="membership-feature">
+              <span class="x-icon">—</span> Multi-gym access
+            </div>
+            <div class="membership-feature">
+              <span class="x-icon">—</span> Guest passes
+            </div>
+          </div>
+          <a href="#" class="btn btn-outline" style="width:100%;justify-content:center;">Get Off-Peak</a>
+        </div>
+      </div>
+
+      <!-- CORE -->
+      <div class="membership-card featured">
+        <div class="membership-popular">Most Popular</div>
+        <div class="membership-card-body">
+          <div class="membership-name">Core</div>
+          <p class="membership-desc">Full, unrestricted access to your chosen gym — day or night.</p>
+          <div class="membership-price">
+            <div class="amount">£32<span style="font-size:1.2rem;">.99</span></div>
+            <span class="per">per month + £1 joining fee</span>
+          </div>
+          <div class="membership-features">
+            <div class="membership-feature">
+              <span class="check">✓</span> 24/7 access to the gym
+            </div>
+            <div class="membership-feature">
+              <span class="check">✓</span> Book classes 6 days in advance
+            </div>
+            <div class="membership-feature">
+              <span class="check">✓</span> Unlimited classes included
+            </div>
+            <div class="membership-feature">
+              <span class="check">✓</span> Free Da Gym app
+            </div>
+            <div class="membership-feature">
+              <span class="x-icon">—</span> Multi-gym access
+            </div>
+            <div class="membership-feature">
+              <span class="x-icon">—</span> Guest passes
+            </div>
+          </div>
+          <a href="#" class="btn btn-primary" style="width:100%;justify-content:center;">Get Core</a>
+        </div>
+      </div>
+
+      <!-- PLUS -->
+      <div class="membership-card">
+        <div class="membership-card-body">
+          <div class="membership-name">Plus</div>
+          <p class="membership-desc">Maximum flexibility — access every Da Gym in the UK, plus exclusive perks.</p>
+          <div class="membership-price">
+            <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;">
+              <div class="amount">£32<span style="font-size:1.2rem;">.99</span></div>
+              <span class="original">£39.00</span>
+            </div>
+            <span class="per">first week + £1 joining fee · then £39.00/month</span>
+          </div>
+          <div class="membership-features">
+            <div class="membership-feature">
+              <span class="check">✓</span> Access to all 300+ UK gyms
+            </div>
+            <div class="membership-feature">
+              <span class="check">✓</span> 24/7 gym access
+            </div>
+            <div class="membership-feature">
+              <span class="check">✓</span> Unlimited classes
+            </div>
+            <div class="membership-feature">
+              <span class="check">✓</span> Bring a guest up to 4× per month
+            </div>
+            <div class="membership-feature">
+              <span class="check">✓</span> Partner rewards with top brands
+            </div>
+            <div class="membership-feature">
+              <span class="check">✓</span> Up to 80% off day passes
+            </div>
+          </div>
+          <a href="#" class="btn btn-outline" style="width:100%;justify-content:center;">Get Plus</a>
+        </div>
+      </div>
+    </div><!-- /.mem-cards-track -->
+      </div><!-- /.mem-viewport -->
+    </div><!-- /.mem-slider-wrap -->
+
+    <!-- ALL PLANS INCLUDE -->
+    <div style="margin-top:60px;text-align:center;" data-animate>
+      <span class="section-eyebrow">All Plans Include</span>
+      <div style="display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-top:28px;">
+        <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem;color:var(--text-muted);">
+          <span style="color:var(--primary);">✓</span> No contract
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem;color:var(--text-muted);">
+          <span style="color:var(--primary);">✓</span> Cancel anytime
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem;color:var(--text-muted);">
+          <span style="color:var(--primary);">✓</span> Free app included
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem;color:var(--text-muted);">
+          <span style="color:var(--primary);">✓</span> 220+ pieces of kit
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem;color:var(--text-muted);">
+          <span style="color:var(--primary);">✓</span> Air conditioning
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPARE TABLE -->
+    <div data-animate>
+      <h2 style="margin-top:80px;margin-bottom:8px;color:var(--text);">Compare plans</h2>
+      <p style="margin-bottom:0;">Everything side by side so you can choose with confidence.</p>
+      <div style="overflow-x:auto;margin-top:0;">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th style="width:40%;">Feature</th>
+              <th>Off-Peak</th>
+              <th class="featured-col">Core</th>
+              <th>Plus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Price/month</td><td>£23.99</td><td style="color:var(--primary);font-weight:700;">£32.99</td><td>£39.00</td></tr>
+            <tr><td>Gym access</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+            <tr><td>24/7 access</td><td class="dash">Off-peak only</td><td class="check">✓</td><td class="check">✓</td></tr>
+            <tr><td>Unlimited classes</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+            <tr><td>Book 6 days in advance</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+            <tr><td>Multi-gym access (300+ gyms)</td><td class="dash">—</td><td class="dash">—</td><td class="check">✓</td></tr>
+            <tr><td>Guest passes (4×/month)</td><td class="dash">—</td><td class="dash">—</td><td class="check">✓</td></tr>
+            <tr><td>Partner rewards</td><td class="dash">—</td><td class="dash">—</td><td class="check">✓</td></tr>
+            <tr><td>Day pass discounts (up to 80%)</td><td class="dash">—</td><td class="dash">—</td><td class="check">✓</td></tr>
+            <tr><td>No contract</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div style="background:var(--surface);border-top:1px solid var(--border);">
+    <div class="section">
+      <div class="section-header">
+        <span class="section-eyebrow">FAQ</span>
+        <h2>Common questions</h2>
+      </div>
+
+      <div style="max-width:720px;margin:0 auto;">
+        <div class="faq-item" data-animate>
+          <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            Can I really cancel anytime?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">Yes — there's no contract and no minimum term. You can cancel your membership at any time through your online account or the Da Gym app, and you'll retain access until the end of your current paid period.</div>
+        </div>
+
+        <div class="faq-item" data-animate data-delay="1">
+          <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            What's included in the joining fee?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">The £1 joining fee covers your key fob and account setup. That's it — no surprise charges. Your first monthly payment is taken when you join, and future payments are on the same date each month.</div>
+        </div>
+
+        <div class="faq-item" data-animate data-delay="2">
+          <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            Are classes included in all memberships?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">Yes! All Da Gym memberships include unlimited access to our group exercise classes. You can book up to 6 days in advance through the app. Classes include HIIT, Yoga, Spin, Pilates, Zumba, and more.</div>
+        </div>
+
+        <div class="faq-item" data-animate data-delay="3">
+          <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            What is the difference between Core and Plus?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">Core gives you full 24/7 access to your chosen home gym plus all the classes. Plus gives you everything in Core, plus access to every Da Gym in the UK (300+ locations), guest passes (4 per month), and exclusive partner rewards and discounts.</div>
+        </div>
+
+        <div class="faq-item" data-animate data-delay="4">
+          <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            Can I freeze my membership?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">Yes — you can freeze your membership for up to 3 months per year via your online account. This pauses your payments while reserving your spot. Freezing takes effect from the next billing date.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="nav-logo" style="margin-bottom:14px;">Da <span>Gym</span></div>
+          <p>The UK's largest gym network. No contract, just results.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Get to Know Us</h5>
+          <div class="footer-links">
+            <a href="about.html" class="footer-link">About Da Gym</a>
+            <a href="#" class="footer-link">Careers</a>
+            <a href="#" class="footer-link">Press</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Help &amp; Support</h5>
+          <div class="footer-links">
+            <a href="#" class="footer-link">FAQs</a>
+            <a href="#" class="footer-link">Contact Us</a>
+            <a href="#" class="footer-link">Member Login</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Company</h5>
+          <div class="footer-links">
+            <a href="#" class="footer-link">Investors</a>
+            <a href="#" class="footer-link">Partners</a>
+            <a href="#" class="footer-link">Corporate</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Serious Stuff</h5>
+          <div class="footer-links">
+            <a href="privacy.html" class="footer-link">Privacy Policy</a>
+            <a href="terms.html" class="footer-link">Terms &amp; Conditions</a>
+            <a href="privacy.html#cookies" class="footer-link">Cookie Policy</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Da Gym. All rights reserved.</span>
+        <div class="footer-socials">
+          <a href="https://www.instagram.com/dagym/" target="_blank" rel="noopener" class="social-icon" aria-label="Instagram"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://www.facebook.com/Da Gym/" target="_blank" rel="noopener" class="social-icon" aria-label="Facebook"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.95.93-1.95 1.88v2.27h3.32l-.53 3.49h-2.79V24C19.61 23.1 24 18.1 24 12.07z"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    let memIndex = 0;
+    const memTotal = 3;
+    function memSlide(dir) { memGoTo(memIndex + dir); }
+    function memGoTo(idx) {
+      memIndex = Math.max(0, Math.min(memTotal - 1, idx));
+      const vp = document.querySelector('.mem-viewport');
+      const w = vp ? vp.offsetWidth : 0;
+      document.getElementById('memSlider').style.transform = `translateX(-${memIndex * w}px)`;
+      document.querySelectorAll('.mem-slider-dot').forEach((d, i) => d.classList.toggle('active', i === memIndex));
+      document.getElementById('memPrev').disabled = memIndex === 0;
+      document.getElementById('memNext').disabled = memIndex === memTotal - 1;
+    }
+    memGoTo(0);
+    window.addEventListener('resize', () => memGoTo(memIndex));
+  </script>
+</body>
+</html>

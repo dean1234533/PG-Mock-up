@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Find a Gym | Da Gym</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <style>
+    .find-hero {
+      background: #111;
+      padding: 80px 24px 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .find-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(0,178,169,0.1) 0%, transparent 70%);
+    }
+    .find-hero-inner { position: relative; z-index: 1; max-width: 700px; margin: auto; }
+    .find-hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900; color: #fff; letter-spacing: -0.03em; margin-bottom: 14px; }
+    .find-hero h1 span { color: var(--primary); }
+    .find-hero p { font-size: 1rem; color: rgba(255,255,255,0.55); margin-bottom: 36px; }
+
+    .search-bar {
+      display: flex; gap: 0;
+      background: #fff; border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+      max-width: 600px; margin: 0 auto;
+    }
+    .search-bar svg { color: #aaa; flex-shrink: 0; }
+    .search-bar-inner {
+      display: flex; align-items: center; gap: 10px;
+      flex: 1; padding: 14px 20px;
+    }
+    .search-bar input {
+      flex: 1; border: none; outline: none;
+      font-size: 0.95rem; font-family: inherit; color: #111;
+      background: transparent;
+    }
+    .search-bar input::placeholder { color: #aaa; }
+    .search-bar button {
+      background: var(--primary); color: #fff;
+      font-size: 0.9rem; font-weight: 700;
+      padding: 0 28px; border: none; cursor: pointer;
+      transition: background 0.2s; white-space: nowrap;
+    }
+    .search-bar button:hover { background: var(--primary-dark); }
+
+    .gyms-section {
+      max-width: 1400px; margin: 0 auto; padding: 60px 24px;
+    }
+    .gyms-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 32px; flex-wrap: wrap; gap: 16px;
+    }
+    .gyms-header h2 { font-size: 1.5rem; font-weight: 900; letter-spacing: -0.02em; }
+    .gyms-header span { font-size: 0.85rem; color: var(--text-muted); }
+
+    .gyms-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+    }
+
+    .gym-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all 0.25s;
+      display: flex; flex-direction: column;
+    }
+    .gym-card:hover {
+      border-color: rgba(0,178,169,0.3);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      transform: translateY(-2px);
+    }
+
+    .gym-card-img {
+      height: 180px;
+      background: linear-gradient(135deg, #1a2a28, #243330);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.12); position: relative;
+    }
+    .gym-card-open {
+      position: absolute; top: 12px; left: 12px;
+      display: flex; align-items: center; gap: 5px;
+      background: rgba(0,0,0,0.6); color: #4caf50;
+      font-size: 0.7rem; font-weight: 700;
+      padding: 4px 10px; border-radius: 100px;
+    }
+    .gym-card-open-dot { width: 6px; height: 6px; background: #4caf50; border-radius: 50%; }
+    .gym-card-distance {
+      position: absolute; top: 12px; right: 12px;
+      background: rgba(0,0,0,0.6); color: #fff;
+      font-size: 0.7rem; font-weight: 600;
+      padding: 4px 10px; border-radius: 100px;
+    }
+
+    .gym-card-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+    .gym-card-name { font-size: 1.05rem; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+    .gym-card-address { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px; display: flex; align-items: center; gap: 5px; }
+    .gym-card-address svg { color: var(--primary); flex-shrink: 0; }
+
+    .gym-card-prices {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;
+    }
+    .price-pill {
+      padding: 5px 12px; border-radius: 100px;
+      font-size: 0.72rem; font-weight: 700;
+      background: var(--surface); color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+    .price-pill.featured { background: rgba(0,178,169,0.1); color: var(--primary); border-color: rgba(0,178,169,0.2); }
+
+    .gym-card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; }
+    .gym-tag { font-size: 0.68rem; font-weight: 600; color: var(--text-muted); padding: 3px 8px; background: var(--surface); border-radius: 4px; }
+
+    .gym-card-footer { margin-top: auto; }
+    .btn-view-gym {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; padding: 12px 18px;
+      background: #111; color: #fff;
+      border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 700;
+      transition: background 0.2s;
+    }
+    .btn-view-gym:hover { background: #333; }
+
+    @media (max-width: 768px) {
+      .gyms-grid { grid-template-columns: 1fr; }
+      .search-bar { flex-direction: column; border-radius: 12px; }
+      .search-bar-inner { border-radius: 12px 12px 0 0; }
+      .search-bar button { border-radius: 0 0 12px 12px; padding: 14px; }
+    }
+    @media (max-width: 480px) {
+      .gyms-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ANNOUNCEMENT BANNER -->
+  <div class="announcement-banner" id="annBanner">
+    Get <strong>£0 joining fee</strong> — Women's Workout Space coming to Stratford. Code: <strong>ZEROJF</strong>. Ends soon.
+    <button onclick="document.getElementById('annBanner').remove()" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);background:none;border:none;color:#000;font-size:1.1rem;cursor:pointer;line-height:1;">✕</button>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Da <span>Gym</span></a>
+      <div class="nav-links">
+        <a href="find-a-gym.html" class="nav-link active">Find a Gym</a>
+        <a href="memberships.html" class="nav-link">Memberships</a>
+        <a href="classes.html" class="nav-link">Classes</a>
+        <a href="personal-trainers.html" class="nav-link">Personal Trainers</a>
+        <a href="about.html" class="nav-link">About</a>
+      </div>
+      <div class="nav-actions">
+        <a href="memberships.html" class="btn btn-primary">Join Now</a>
+        <button class="mobile-menu-btn btn-ghost" id="mobileMenuBtn">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MOBILE NAV -->
+  <div class="mobile-nav" id="mobileNav">
+    <button id="mobileNavClose" style="position:absolute;top:20px;right:20px;color:var(--text);background:none;border:none;font-size:1.5rem;cursor:pointer;">✕</button>
+    <a href="find-a-gym.html" class="nav-link">Find a Gym</a>
+    <a href="memberships.html" class="nav-link">Memberships</a>
+    <a href="classes.html" class="nav-link">Classes</a>
+    <a href="personal-trainers.html" class="nav-link">Personal Trainers</a>
+    <a href="about.html" class="nav-link">About</a>
+    <div style="margin-top:24px;"><a href="memberships.html" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">Join Now</a></div>
+  </div>
+
+  <!-- HERO -->
+  <div class="find-hero">
+    <div class="find-hero-inner">
+      <h1>Find your <span>Da Gym</span></h1>
+      <p>300+ gyms across the UK. No contract, classes included, open 24/7.</p>
+      <div class="search-bar">
+        <div class="search-bar-inner">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          <input type="text" placeholder="Search by gym name, postcode, or city..." id="gymSearch" />
+        </div>
+        <button onclick="filterGyms()">Search</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GYM LISTINGS -->
+  <div class="gyms-section">
+    <div class="gyms-header">
+      <h2>Gyms near London</h2>
+      <span id="gymCount">Showing 6 gyms</span>
+    </div>
+    <div class="gyms-grid" id="gymsGrid">
+
+      <!-- STRATFORD — Featured -->
+      <div class="gym-card" data-name="london stratford">
+        <div class="gym-card-img"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&h=220&q=80&crop=center" alt="Da Gym London Stratford" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+          <div class="gym-card-open"><div class="gym-card-open-dot"></div> Open 24/7</div>
+          <div class="gym-card-distance">0.4 mi</div>
+        </div>
+        <div class="gym-card-body">
+          <div class="gym-card-name">Da Gym London Stratford</div>
+          <div class="gym-card-address">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            The Mall, Stratford Centre, E15 1XQ
+          </div>
+          <div class="gym-card-prices">
+            <span class="price-pill">Off-Peak £23.99</span>
+            <span class="price-pill">Core £32.99</span>
+            <span class="price-pill featured">Plus £32.99</span>
+          </div>
+          <div class="gym-card-tags">
+            <span class="gym-tag">220+ Kit</span>
+            <span class="gym-tag">Classes</span>
+            <span class="gym-tag">Air Con</span>
+            <span class="gym-tag">PTs</span>
+            <span class="gym-tag">Women's Space</span>
+          </div>
+          <div class="gym-card-footer">
+            <a href="index.html" class="btn-view-gym">
+              View Stratford Gym
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- WESTFIELD -->
+      <div class="gym-card" data-name="london westfield">
+        <div class="gym-card-img" style="background:linear-gradient(135deg,#1a1a2a,#2a2a3a);"><img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&h=220&q=80" alt="Da Gym Westfield" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+          <div class="gym-card-open"><div class="gym-card-open-dot"></div> Open 24/7</div>
+          <div class="gym-card-distance">0.9 mi</div>
+        </div>
+        <div class="gym-card-body">
+          <div class="gym-card-name">Da Gym London Westfield</div>
+          <div class="gym-card-address">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Westfield Stratford City, E20 1GL
+          </div>
+          <div class="gym-card-prices">
+            <span class="price-pill">Off-Peak £24.99</span>
+            <span class="price-pill">Core £33.99</span>
+            <span class="price-pill featured">Plus £33.99</span>
+          </div>
+          <div class="gym-card-tags">
+            <span class="gym-tag">180+ Kit</span>
+            <span class="gym-tag">Classes</span>
+            <span class="gym-tag">PTs</span>
+          </div>
+          <div class="gym-card-footer">
+            <a href="index.html" class="btn-view-gym">
+              View Westfield Gym
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- HACKNEY -->
+      <div class="gym-card" data-name="london hackney">
+        <div class="gym-card-img" style="background:linear-gradient(135deg,#1a2a1a,#2a3a2a);"><img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?auto=format&fit=crop&w=600&h=220&q=80" alt="Da Gym Hackney" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+          <div class="gym-card-open"><div class="gym-card-open-dot"></div> Open 24/7</div>
+          <div class="gym-card-distance">2.1 mi</div>
+        </div>
+        <div class="gym-card-body">
+          <div class="gym-card-name">Da Gym London Hackney</div>
+          <div class="gym-card-address">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Morning Lane, Hackney, E9 6NA
+          </div>
+          <div class="gym-card-prices">
+            <span class="price-pill">Off-Peak £22.99</span>
+            <span class="price-pill">Core £31.99</span>
+            <span class="price-pill featured">Plus £31.99</span>
+          </div>
+          <div class="gym-card-tags">
+            <span class="gym-tag">200+ Kit</span>
+            <span class="gym-tag">Classes</span>
+            <span class="gym-tag">Air Con</span>
+          </div>
+          <div class="gym-card-footer">
+            <a href="index.html" class="btn-view-gym">
+              View Hackney Gym
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- CANARY WHARF -->
+      <div class="gym-card" data-name="london canary wharf">
+        <div class="gym-card-img" style="background:linear-gradient(135deg,#2a1a1a,#3a2a2a);"><img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=600&h=220&q=80" alt="Da Gym Canary Wharf" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+          <div class="gym-card-open"><div class="gym-card-open-dot"></div> Open 24/7</div>
+          <div class="gym-card-distance">3.4 mi</div>
+        </div>
+        <div class="gym-card-body">
+          <div class="gym-card-name">Da Gym London Canary Wharf</div>
+          <div class="gym-card-address">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Canada Square, Canary Wharf, E14 5AB
+          </div>
+          <div class="gym-card-prices">
+            <span class="price-pill">Off-Peak £25.99</span>
+            <span class="price-pill">Core £34.99</span>
+            <span class="price-pill featured">Plus £34.99</span>
+          </div>
+          <div class="gym-card-tags">
+            <span class="gym-tag">250+ Kit</span>
+            <span class="gym-tag">Classes</span>
+            <span class="gym-tag">PTs</span>
+          </div>
+          <div class="gym-card-footer">
+            <a href="index.html" class="btn-view-gym">
+              View Canary Wharf Gym
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- BETHNAL GREEN -->
+      <div class="gym-card" data-name="london bethnal green">
+        <div class="gym-card-img" style="background:linear-gradient(135deg,#1a2a2a,#1a3a3a);"><img src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?auto=format&fit=crop&w=600&h=220&q=80" alt="Da Gym Bethnal Green" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+          <div class="gym-card-open"><div class="gym-card-open-dot"></div> Open 24/7</div>
+          <div class="gym-card-distance">2.8 mi</div>
+        </div>
+        <div class="gym-card-body">
+          <div class="gym-card-name">Da Gym London Bethnal Green</div>
+          <div class="gym-card-address">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Cambridge Heath Road, E2 9PA
+          </div>
+          <div class="gym-card-prices">
+            <span class="price-pill">Off-Peak £22.99</span>
+            <span class="price-pill">Core £31.99</span>
+            <span class="price-pill featured">Plus £31.99</span>
+          </div>
+          <div class="gym-card-tags">
+            <span class="gym-tag">190+ Kit</span>
+            <span class="gym-tag">Classes</span>
+          </div>
+          <div class="gym-card-footer">
+            <a href="index.html" class="btn-view-gym">
+              View Bethnal Green Gym
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOW -->
+      <div class="gym-card" data-name="london bow">
+        <div class="gym-card-img" style="background:linear-gradient(135deg,#201a2a,#2a1a3a);"><img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=600&h=220&q=80" alt="Da Gym Bow" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+          <div class="gym-card-open"><div class="gym-card-open-dot"></div> Open 24/7</div>
+          <div class="gym-card-distance">1.6 mi</div>
+        </div>
+        <div class="gym-card-body">
+          <div class="gym-card-name">Da Gym London Bow</div>
+          <div class="gym-card-address">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Bow Road, Tower Hamlets, E3 4BH
+          </div>
+          <div class="gym-card-prices">
+            <span class="price-pill">Off-Peak £21.99</span>
+            <span class="price-pill">Core £30.99</span>
+            <span class="price-pill featured">Plus £30.99</span>
+          </div>
+          <div class="gym-card-tags">
+            <span class="gym-tag">170+ Kit</span>
+            <span class="gym-tag">Classes</span>
+            <span class="gym-tag">PTs</span>
+          </div>
+          <div class="gym-card-footer">
+            <a href="index.html" class="btn-view-gym">
+              View Bow Gym
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="footer-logo">Da <span>Gym</span></a>
+        <p class="footer-tagline">The UK's largest gym network. No contract, just results.</p>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Get to know us</div>
+        <a href="about.html" class="footer-link">About Da Gym</a>
+        <a href="#" class="footer-link">Careers</a>
+        <a href="#" class="footer-link">Press</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Help & Support</div>
+        <a href="#" class="footer-link">FAQs</a>
+        <a href="#" class="footer-link">Contact Us</a>
+        <a href="#" class="footer-link">Member Login</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Company</div>
+        <a href="#" class="footer-link">Investors</a>
+        <a href="#" class="footer-link">Partners</a>
+        <a href="#" class="footer-link">Serious Stuff</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Da Gym. Registered in England</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    function filterGyms() {
+      const q = document.getElementById('gymSearch').value.toLowerCase();
+      const cards = document.querySelectorAll('.gym-card');
+      let visible = 0;
+      cards.forEach(card => {
+        const name = card.dataset.name || '';
+        const show = !q || name.includes(q);
+        card.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      document.getElementById('gymCount').textContent = `Showing ${visible} gym${visible !== 1 ? 's' : ''}`;
+    }
+    document.getElementById('gymSearch').addEventListener('keydown', e => {
+      if (e.key === 'Enter') filterGyms();
+    });
+  </script>
+</body>
+</html>
